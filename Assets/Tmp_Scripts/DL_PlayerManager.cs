@@ -30,7 +30,7 @@ public class DL_PlayerManager : MonoBehaviour
     {
         Debug.Log("Instantiated Player Controller");
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint(); 
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "TmpPlayerController"), spawnPoint.position, spawnPoint.rotation);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CartMC"), spawnPoint.position, spawnPoint.rotation);
     }
 
 }
