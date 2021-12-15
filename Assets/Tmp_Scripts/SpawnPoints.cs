@@ -10,7 +10,7 @@ public class SpawnPoints : MonoBehaviour
 
     private void Awake()
     {
-        graphics.SetActive(false);
+        //graphics.SetActive(false);
     }
 
     void Start()
