@@ -21,17 +21,27 @@ public class Movement : MonoBehaviourPunCallbacks
     public float jumpHeight = 2f;
     private bool isGrounded = false;
     private Vector3 currVelocity;
+    public float camRotateSpeed;
+    public Transform camTransform;
+    private float prevCamPosX; 
+    public float yaw = 0; 
 
     private PlayerInput playerInputActions;
     PhotonView PV;
 
     void Awake(){
          PV = GetComponent<PhotonView>();
-        Cursor.lockState = CursorLockMode.Locked;
         playerInputActions = new PlayerInput();
         playerInputActions.Movement.Enable();
         playerInputActions.Movement.Jump.performed += Jump;
         camera = GameObject.Find("Main Camera").transform;
+    }
+
+    private void Start()
+    {
+        prevCamPosX = Mouse.current.position.ReadValue().x;
+        Cursor.lockState = CursorLockMode.Locked;
+
     }
     void Update()
     {
@@ -47,25 +57,31 @@ public class Movement : MonoBehaviourPunCallbacks
     
 
         Vector2 inputDir = playerInputActions.Movement.Move.ReadValue<Vector2>();
-        Vector3 direction = new Vector3(inputDir.x , 0f, inputDir.y).normalized;
+        Vector3 direction = (transform.rotation*Vector3.forward * inputDir.y + transform.rotation*Vector3.right*inputDir.x).normalized;  //Vector3(inputDir.x * Vector3.right.x , 0f, inputDir.y * Vector3.forward.z).normalized;
 
-
-        if(direction.magnitude >= 0.1f) {
-                    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y; // takes angle of camera direction we want
-                    float smoothAngle  = Mathf.SmoothDampAngle(transform.eulerAngles.y , targetAngle, ref smoothVelocity, smoothing);
-                    transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
-                    Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        if (direction.magnitude >= 0.1f) {
+            //float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg; //+ camera.eulerAngles.y; // takes angle of camera direction we want
+                    //float smoothAngle  = Mathf.SmoothDampAngle(transform.eulerAngles.y , targetAngle, ref smoothVelocity, smoothing);
+            //
+            //controller.rot
+            //transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+                    Vector3 moveDirection = direction;  //Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                     controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+            //controller.Move(new Vector3(0,transform.rotation.eulerAngles.y * yaw,0));
         }
 
+        yaw = Mouse.current.delta.ReadValue().x * Time.deltaTime * camRotateSpeed;
+        prevCamPosX = Mouse.current.position.ReadValue().x;
+        transform.Rotate(Vector3.up * yaw);
         currVelocity.y += gravity * Time.deltaTime;
-        controller.Move(currVelocity*Time.deltaTime);
+        controller.SimpleMove(currVelocity*Time.deltaTime);
     }
 
 
     public void Jump(InputAction.CallbackContext context)
     {   if(context.performed){ // Check for key press not hold
         if (isGrounded){
+                Debug.Log("jump");
              currVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //Formula for finding velocity needed to reach a certain height
         }
     }
