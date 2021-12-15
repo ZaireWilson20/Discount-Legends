@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class InteractTrigger : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class InteractTrigger : MonoBehaviourPunCallbacks
 {
   private PlayerInput playerInputActions;
   [SerializeField]
   private GameObject Trigger;
+
+  private ItemController itemEqualizer;
+   PhotonView PV;
     
     void Awake(){
+        PV = GetComponent<PhotonView>();
+        itemEqualizer = GetComponent<ItemController>();
         playerInputActions = new PlayerInput();
         playerInputActions.Interact.Enable();
         playerInputActions.Interact.PickUp.performed += PickUp;
@@ -17,13 +24,21 @@ public class InteractTrigger : MonoBehaviour
     }
      public void PickUp(InputAction.CallbackContext context)
     {  
-            Trigger.SetActive(true);
+          if (!PV.IsMine){
+               return;
+          }
+           itemEqualizer.UpdateItemStatus(PV.ViewID, true);
         
     }
 
      public void stopPickUp(InputAction.CallbackContext context)
     {  
-         Trigger.SetActive(false);
+         if (!PV.IsMine){
+               return;
+          }
+         itemEqualizer.UpdateItemStatus(PV.ViewID, false);
     }
+
+
 
 }
