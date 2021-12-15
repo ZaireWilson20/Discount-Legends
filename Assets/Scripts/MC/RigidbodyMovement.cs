@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class RigidbodyMovement : MonoBehaviour
 {
-    [SerializeField] PhotonView _pv; 
+    [SerializeField] protected PhotonView _pv; 
      protected PlayerInput playerInputActions;
      Vector3 move;
      [SerializeField]
@@ -70,7 +70,7 @@ public class RigidbodyMovement : MonoBehaviour
 
     public virtual void Attack()
     {
-
+        if (!_pv.IsMine) { return; }
     }
 
     public void TakeDamage(int dmgAmount)
@@ -79,8 +79,10 @@ public class RigidbodyMovement : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_TakeDamage(int dmgAmount)
+    public void RPC_TakeDamage(int dmgAmount)
     {
+
+        //m_rigidBody.AddForce(transform.rotation * Vector3.forward * 100f);
         if (!_pv.IsMine) { return;  }
         Debug.Log("Took " + dmgAmount + " damage");
     }
