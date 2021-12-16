@@ -10,7 +10,8 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform container;
     [SerializeField] GameObject scoreboardItemPrefab;
-    Dictionary<Player, ScoreboardItem> scoreboardItems = new Dictionary<Player, ScoreboardItem>();
+    [SerializeField] Dictionary<int, ScoreboardItem> scoreboardItems = new Dictionary<int, ScoreboardItem>(); 
+    //Serialize Field is only here for debugging.
 
    
     void Start()
@@ -18,6 +19,7 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
        {
          AddScoreboardItem(player);
+         Debug.Log("Player Nickname: " + player.NickName);
 
         }
 
@@ -43,19 +45,24 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
    {
        ScoreboardItem item= Instantiate (scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
        item.Initialize(player);
-       scoreboardItems[player] =item;
+       item.updateScore(0);
+       int id = player.ActorNumber;
+       scoreboardItems[id] =item;
 
 
   }
-
-
-
    
 
     void RemoveScoreboarditem(Player player)//removes players
     {
-        Destroy(scoreboardItems[player].gameObject);
-        scoreboardItems.Remove(player);
+        int id = player.ActorNumber;
+        Destroy(scoreboardItems[id].gameObject);
+        scoreboardItems.Remove(id);
+    }
+
+    public void UpdateScoreboardItem( int score , int id){
+        scoreboardItems[id].updateScore(score);
+        
     }
 
 }
