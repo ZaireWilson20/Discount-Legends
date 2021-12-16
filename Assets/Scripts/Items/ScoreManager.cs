@@ -29,6 +29,8 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
+
+        //Eventually need to figure out a way to stop this from happening whenever player properties are changed
         GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
         foreach (GameObject item in items)
         {
