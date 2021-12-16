@@ -242,6 +242,56 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Interact"",
+            ""id"": ""1696689c-e988-4bbf-94aa-2f280d991a73"",
+            ""actions"": [
+                {
+                    ""name"": ""PickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5d75be4-6f30-4fdd-96f7-31c29a3f62d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1d78362c-356b-49d6-bbc6-5876cf5fe437"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ArrowKeys"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c022eefa-198a-48fe-a7b6-5ddeaf776f1c"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""WASD"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fed60e9b-f41f-4faf-b5b7-f4c63b0bfe26"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -286,6 +336,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
         m_Movement_Pause = m_Movement.FindAction("Pause", throwIfNotFound: true);
         m_Movement_Attack = m_Movement.FindAction("Attack", throwIfNotFound: true);
+        // Interact
+        m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
+        m_Interact_PickUp = m_Interact.FindAction("PickUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -398,6 +451,39 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Interact
+    private readonly InputActionMap m_Interact;
+    private IInteractActions m_InteractActionsCallbackInterface;
+    private readonly InputAction m_Interact_PickUp;
+    public struct InteractActions
+    {
+        private @PlayerInput m_Wrapper;
+        public InteractActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PickUp => m_Wrapper.m_Interact_PickUp;
+        public InputActionMap Get() { return m_Wrapper.m_Interact; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractActions set) { return set.Get(); }
+        public void SetCallbacks(IInteractActions instance)
+        {
+            if (m_Wrapper.m_InteractActionsCallbackInterface != null)
+            {
+                @PickUp.started -= m_Wrapper.m_InteractActionsCallbackInterface.OnPickUp;
+                @PickUp.performed -= m_Wrapper.m_InteractActionsCallbackInterface.OnPickUp;
+                @PickUp.canceled -= m_Wrapper.m_InteractActionsCallbackInterface.OnPickUp;
+            }
+            m_Wrapper.m_InteractActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @PickUp.started += instance.OnPickUp;
+                @PickUp.performed += instance.OnPickUp;
+                @PickUp.canceled += instance.OnPickUp;
+            }
+        }
+    }
+    public InteractActions @Interact => new InteractActions(this);
     private int m_ArrowKeysSchemeIndex = -1;
     public InputControlScheme ArrowKeysScheme
     {
@@ -431,5 +517,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+    }
+    public interface IInteractActions
+    {
+        void OnPickUp(InputAction.CallbackContext context);
     }
 }

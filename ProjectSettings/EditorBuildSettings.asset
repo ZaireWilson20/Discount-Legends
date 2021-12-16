@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MainStartTemp.unity
     guid: 9ac94127e976c8b499b336bbb78ba645
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FakeGameScene.unity
     guid: 785b1a9ced7800e45af08f174d4a09f1
+  - enabled: 1
+    path: Assets/Scenes/Movement.unity
+    guid: 234b9288c041d2349a875c1793bc97df
   m_configObjects: {}
