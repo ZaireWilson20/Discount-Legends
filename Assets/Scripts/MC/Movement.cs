@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class Movement : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class Movement : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private CharacterController controller;
@@ -26,12 +27,14 @@ public class Movement : MonoBehaviour
     public float yaw = 0; 
 
     private PlayerInput playerInputActions;
-
+    PhotonView PV;
 
     void Awake(){
+         PV = GetComponent<PhotonView>();
         playerInputActions = new PlayerInput();
         playerInputActions.Movement.Enable();
         playerInputActions.Movement.Jump.performed += Jump;
+        camera = GameObject.Find("Main Camera").transform;
     }
 
     private void Start()
@@ -42,7 +45,9 @@ public class Movement : MonoBehaviour
     }
     void Update()
     {
-
+        if (!PV.IsMine){
+            return;
+        }
         isGrounded = controller.isGrounded;
         
         if (isGrounded && currVelocity.y < 0) {

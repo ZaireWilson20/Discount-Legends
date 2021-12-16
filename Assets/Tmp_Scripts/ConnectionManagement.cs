@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro; 
+using TMPro;
+using Hashtable = ExitGames.Client.Photon.Hashtable; 
 
 public class ConnectionManagement : MonoBehaviourPunCallbacks
 {
@@ -55,6 +56,8 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(_roomNameInput.text)) { return;  }
 
         _menu.SetRoomName(_roomNameInput.text);
+        //Hashtable roomCustomProperties = new Hashtable(); 
+        //roomCustomProperties.Add("Scoreboard", )
         PhotonNetwork.CreateRoom(_roomNameInput.text);
         _menu.OpenLoadingScreen(); 
     }
