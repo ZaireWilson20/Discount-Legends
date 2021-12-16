@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_TakeDamage
   - RPC_GetCollected
   - UpdateItemEveryone
+  - SetItemPoint
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

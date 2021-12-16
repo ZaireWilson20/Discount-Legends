@@ -4,18 +4,18 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviourPunCallbacks
 {
-
+    
     GameObject[] items;
     PhotonView PV;
     //DEBUG
     TextMeshProUGUI itemList;
-    private ExitGames.Client.Photon.Hashtable  _myCustomScores = new ExitGames.Client.Photon.Hashtable();
+    //Dictionary<string, int> playerScores
+    
     void Awake() {
     
         PV = GetComponent<PhotonView>();
-        items = GameObject.FindGameObjectsWithTag("Item");
         itemList = GameObject.Find("ALL ITEMS").GetComponent<TextMeshProUGUI>();//DEBUG
 
         if (items == null)
@@ -23,26 +23,61 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("NO ITEMS ON SCREEN");
             return;
         }
-        foreach (GameObject item in items){
+
+
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+        foreach (GameObject item in items)
+        {
+            Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties.ToString()); //DEBUG
+
+            item.GetComponent<Item>().setPoints((int)changedProps[item.name]);
+        }
+
+
+        foreach (GameObject item in items)
+        {
             itemList.text += item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"; //DEBUG
         }
 
-    if( PhotonNetwork.IsMasterClient){
-            foreach (GameObject item in items){
-             string name = item.name;
-            _myCustomScores[name] = item.GetComponent<Item>().getPoints();
-            PhotonNetwork.LocalPlayer.SetCustomProperties(_myCustomScores);
-            }
-    
-    } 
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 
-    void Start(){
-     
-        foreach (GameObject item in items){ 
-            Debug.Log("Item Score : " +  (int)_myCustomScores[item.name]); //DEBUG
 
-            item.GetComponent<Item>().setPoints((int)_myCustomScores[item.name]);
+    void Start(){
+
+        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+        ExitGames.Client.Photon.Hashtable _myCustomScores = new ExitGames.Client.Photon.Hashtable();
+
+
+        //Debug.Log("on scene loaded");
+        //PV.RPC("SetItemPoint", RpcTarget.MasterClient);
+
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            foreach (GameObject item in items)
+            {
+                Debug.Log(item.name);
+                string name = item.name;
+                _myCustomScores.Add(item.name, item.GetComponent<Item>().getPoints());
+                //_myCustomScores[name] = 1;//item.GetComponent<Item>().getPoints();
+                //PhotonNetwork.LocalPlayer.SetCustomProperties(_myCustomScores);
+            }
+            PhotonNetwork.SetPlayerCustomProperties(_myCustomScores);
         }
+
+
+
+    }
+
+    [PunRPC]
+    public void SetItemPoint()
+    {
+
+
     }
 }
