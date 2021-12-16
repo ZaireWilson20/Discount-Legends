@@ -1915,6 +1915,7 @@ GameObject:
   - component: {fileID: 2371810793249365555}
   - component: {fileID: 2371810793249365548}
   - component: {fileID: 2371810793249365549}
+  - component: {fileID: 5285146010994331770}
   m_Layer: 0
   m_Name: MC
   m_TagString: Player
@@ -1978,6 +1979,9 @@ MonoBehaviour:
   groundDistance: 0.1
   gravity: -50
   jumpHeight: 2
+  camRotateSpeed: 0
+  camTransform: {fileID: 0}
+  yaw: 0
 --- !u!114 &2371810793249365549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2028,3 +2032,40 @@ MonoBehaviour:
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5285146010994331770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2371810793249365553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19df1b221fe40b544bcfdebe7bbab2e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pv: {fileID: 0}
+  m_rigidBody: {fileID: 0}
+  speed: 20
+  yaw: 0
+  camRotateSpeed: 10
+  paused: 0
+  stunned: 0
+  healthBar: 100
+  soundEffects:
+  - name: Back
+    clip: {fileID: 8300000, guid: 639e88c3ad56866448e5ff23a743f58c, type: 3}
+    volume: 100
+    pitch: 0
+    source: {fileID: 0}
+    spatialBlend: 1
+    onAwake: 0
+  - name: Success
+    clip: {fileID: 8300000, guid: 438761cf08a55ef41a4c5fb248e73db6, type: 3}
+    volume: 100
+    pitch: 0
+    source: {fileID: 0}
+    spatialBlend: 1
+    onAwake: 0
+  attackForce: 1000
+  damageAmount: 25
