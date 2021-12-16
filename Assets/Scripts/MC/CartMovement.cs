@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CartMovement : RigidbodyMovement
 {
     [SerializeField] float attackForce = 3f;
-    [SerializeField] int damageAmount;
+    [SerializeField] int damageAmount = 25;
     private CapsuleCollider _collider;
     private bool cartTouchingPlayer = false;
     RigidbodyMovement playerCollidedWith;
@@ -55,8 +54,10 @@ public class CartMovement : RigidbodyMovement
 
         if (other.gameObject.tag == "Player")
         {
-            cartTouchingPlayer = true;
+            
             playerCollidedWith = other.gameObject.GetComponent<RigidbodyMovement>(); 
+          
+            cartTouchingPlayer = true;
         }
     }
 

@@ -44,6 +44,8 @@ MonoBehaviour:
   - RPC_GetCollected
   - UpdateItemEveryone
   - SetItemPoint
+  - RPC_PlayHit
+  - RPC_PlaySound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
