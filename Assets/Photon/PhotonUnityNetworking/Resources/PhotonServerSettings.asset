@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_TakeDamage
   - RPC_GetCollected
   - UpdateItemEveryone
+  - SetItemPoint
   - RPC_PlayHit
   - RPC_PlaySound
   DisableAutoOpenWizard: 1

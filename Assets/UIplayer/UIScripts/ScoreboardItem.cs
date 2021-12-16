@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Photon.RealTime;
+using Photon.Realtime;
 
 public class ScoreboardItem : MonoBehaviour
 {
     public Text usernameText;
     public Text ScoreText;
 
-    public void Initialized()
+    public void Initialize(Player player)
     {
-       // usernameText.text = Player.Nickname; 
+       usernameText.text = player.NickName; 
     }
 
-
-    // Start is called before the first frame update
+    /*
+    //Start is called before the first frame update
     void Start()
     {
         
@@ -26,4 +26,5 @@ public class ScoreboardItem : MonoBehaviour
     {
         
     }
+    */
 }

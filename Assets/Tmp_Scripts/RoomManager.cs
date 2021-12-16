@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO; 
 using Photon.Pun;
+using TMPro;
 using UnityEngine.SceneManagement; 
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector]public RoomManager instance;
+    PhotonView _pv;
+
+    public TMP_Text itemDebug; 
     private void Awake()
     {
+        _pv = GetComponent<PhotonView>(); 
         if (instance)
         {
             Destroy(gameObject);
@@ -43,11 +48,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     }
 
+    
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         if(scene.buildIndex == 1) // Game Scene
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
         }
+
     }
+
+
 }
