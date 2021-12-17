@@ -16,6 +16,8 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
    
     void Start()
     {
+
+        
         foreach (Player player in PhotonNetwork.PlayerList)
        {
          AddScoreboardItem(player);

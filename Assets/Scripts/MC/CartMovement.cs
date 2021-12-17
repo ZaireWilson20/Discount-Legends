@@ -16,6 +16,7 @@ public class CartMovement : RigidbodyMovement
     private int PlayerScore = 0;
 
     private ScoreBoard ScoreBoard;
+    private PlayerRecord Record;
     public override void Attack()
     {
 
@@ -84,8 +85,9 @@ public class CartMovement : RigidbodyMovement
 
     public void updateScoreBoard(int PlayerScore) {
         ScoreBoard = GameObject.Find("Scoreboard").GetComponent<ScoreBoard>();
+        Record = GameObject.Find("PlayerRecord").GetComponent<PlayerRecord>();
         int id = _pv.Owner.ActorNumber;
         ScoreBoard.UpdateScoreboardItem(PlayerScore, id);
-
+        Record.UpdateRecord(PlayerScore, _pv.Owner.NickName);
     }
 }
