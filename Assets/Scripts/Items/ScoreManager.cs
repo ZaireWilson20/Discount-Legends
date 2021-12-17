@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     void Awake() {
     
         PV = GetComponent<PhotonView>();
-        itemList = GameObject.Find("ALL ITEMS").GetComponent<TextMeshProUGUI>();//DEBUG
+        // itemList = GameObject.Find("ALL ITEMS").GetComponent<TextMeshProUGUI>();//DEBUG
 
         if (items == null)
         {
@@ -42,7 +42,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject item in items)
         {
-            itemList.text += item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"; //DEBUG
+            Debug.Log(item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"); //DEBUG
         }
 
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);

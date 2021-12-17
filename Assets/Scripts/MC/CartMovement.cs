@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class CartMovement : RigidbodyMovement
 {
     [SerializeField] float attackForce = 3f;
-    [SerializeField] int damageAmount;
+    [SerializeField] int damageAmount = 25;
     private CapsuleCollider _collider;
     private bool cartTouchingPlayer = false;
     RigidbodyMovement playerCollidedWith;
     private bool canAttack = true; 
 
+    private int PlayerScore = 0;
+
+    private ScoreBoard ScoreBoard;
     public override void Attack()
     {
 
@@ -55,8 +60,10 @@ public class CartMovement : RigidbodyMovement
 
         if (other.gameObject.tag == "Player")
         {
-            cartTouchingPlayer = true;
+            
             playerCollidedWith = other.gameObject.GetComponent<RigidbodyMovement>(); 
+          
+            cartTouchingPlayer = true;
         }
     }
 
@@ -68,5 +75,17 @@ public class CartMovement : RigidbodyMovement
             playerCollidedWith = null; 
             cartTouchingPlayer = false;
         }
+    }
+
+    public void setPlayerScore(int score){
+        this.PlayerScore = this.PlayerScore + score;
+        updateScoreBoard(PlayerScore);
+    }
+
+    public void updateScoreBoard(int PlayerScore) {
+        ScoreBoard = GameObject.Find("Scoreboard").GetComponent<ScoreBoard>();
+        int id = _pv.Owner.ActorNumber;
+        ScoreBoard.UpdateScoreboardItem(PlayerScore, id);
+
     }
 }
