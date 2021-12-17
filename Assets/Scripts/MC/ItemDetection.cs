@@ -11,14 +11,16 @@ public class ItemDetection : MonoBehaviourPunCallbacks
 
 {
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private CartMovement player;
     private int currentScore; // FOR DEBUGGING
     private PhotonView PV;
 
     void Awake()
     {
         currentScore = 0;
-        scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>(); // FOR DEBUGGING
+        // scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>(); // FOR DEBUGGING
         PV = gameObject.transform.parent.gameObject.GetComponent<PhotonView>();
+        player = gameObject.transform.parent.gameObject.GetComponent<CartMovement>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,14 +35,19 @@ public class ItemDetection : MonoBehaviourPunCallbacks
             else
             {
 
+
+                 int point = points.getPoints(); 
                 if (PV.IsMine)
                 {
-                    int point = points.getPoints(); // FOR DEBUGGING
-                    currentScore += point; // FOR DEBUGGING
+                   // FOR  Debugging
+                    currentScore += point;
+                    // FOR DEBUGGING
+                    if(scoreText != null){
                     scoreText.text = "SCORE: " + currentScore; // FOR DEBUGGING
+                    }
                 }
-
-
+    
+                player.setPlayerScore(point);
                 Destroy(other.gameObject);
             }
         }

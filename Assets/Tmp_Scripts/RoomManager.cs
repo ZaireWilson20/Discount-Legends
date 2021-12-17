@@ -56,7 +56,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
         }
-
     }
 
 

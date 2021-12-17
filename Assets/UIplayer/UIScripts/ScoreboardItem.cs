@@ -14,17 +14,8 @@ public class ScoreboardItem : MonoBehaviour
        usernameText.text = player.NickName; 
     }
 
-    /*
-    //Start is called before the first frame update
-    void Start()
-    {
-        
+    public void updateScore(int points) {
+        ScoreText.text = "" + points;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    */
 }

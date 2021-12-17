@@ -698,6 +698,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScoreboardCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3681490813821332422, guid: 95736be97e288c14aa003b079006aff2, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95736be97e288c14aa003b079006aff2, type: 3}
 --- !u!224 &1488919213 stripped
