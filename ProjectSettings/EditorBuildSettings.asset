@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Movement.unity
     guid: 234b9288c041d2349a875c1793bc97df
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ScoreBoard.unity
     guid: 9bd7d2a044d0f44498c037359f8a4e64
+  - enabled: 1
+    path: Assets/Scenes/RealLevel.unity
+    guid: edc11b14b09c4e348836da73154ce846
   m_configObjects: {}
