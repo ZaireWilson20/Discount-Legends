@@ -6,7 +6,7 @@ using Photon.Pun;
 using UnityEngine.Audio;
 using System;
 
-public class RigidbodyMovement : MonoBehaviour
+public class RigidbodyMovement : MonoBehaviourPunCallbacks
 {
     [SerializeField] protected PhotonView _pv; 
      protected PlayerInput playerInputActions;
@@ -40,12 +40,12 @@ public class RigidbodyMovement : MonoBehaviour
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         playerInputActions.Movement.Attack.Enable();
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
         playerInputActions.Movement.Attack.Disable(); 
     }

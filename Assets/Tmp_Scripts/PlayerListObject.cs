@@ -3,12 +3,19 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; 
+using TMPro;
+using Newtonsoft.Json;
+
 public class PlayerListObject : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TMP_Text _playerName;
-    Player _player; 
+    [SerializeField] public TMP_Text _playerName;
+    Player _player;
 
+
+    private void Awake()
+    {
+        
+    }
 
     public void SetUp(Player player)
     {

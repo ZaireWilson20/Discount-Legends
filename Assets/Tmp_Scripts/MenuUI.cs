@@ -12,14 +12,23 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _titleScreenMenu;
     [SerializeField] GameObject _currentRoomMenu;
     [SerializeField] GameObject _joinOrCreateMenu;
-    [SerializeField] TMP_Text _roomNameText; 
-    private string _currentRoomName; 
+    [SerializeField] TMP_Text _roomNameText;
+    [SerializeField] TMP_Text _tourneyNameText;
+    [SerializeField] GameObject _modePickScreen; 
+    [SerializeField] GameObject _OAuthLogin;
+    [SerializeField] GameObject _tourneyJoinOrCreate;
+    [SerializeField] GameObject _tourneyRoom;
+    [SerializeField] GameObject _tourneyNamer; 
+
+    private string _currentRoomName;
+    private string _currentTourneyName;
+    public bool inTourneyMode; 
 
     private GameObject[] menuList; 
     // Start is called before the first frame update
     void Start()
     {
-        menuList = new GameObject[6] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu };
+        menuList = new GameObject[11] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _OAuthLogin, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer };
     }
 
     // Update is called once per frame
@@ -28,6 +37,23 @@ public class MenuUI : MonoBehaviour
         
     }
 
+    public void SwitchToScene(GameObject g)
+    {
+        g.SetActive(true);
+        //if(g == )
+        SetOtherMenuInactive(g);
+    }
+
+
+    public void SetTourneyStatus(bool b)
+    {
+        inTourneyMode = b; 
+    }
+    public void OpenTourneyRoom()
+    {
+        _tourneyRoom.SetActive(true);
+        SetOtherMenuInactive(_tourneyRoom);
+    }
     public void SetOtherMenuInactive(GameObject g)
     {
         foreach(GameObject o in menuList)
@@ -84,9 +110,20 @@ public class MenuUI : MonoBehaviour
         OpenJoinRoomMenu(); 
     }
 
+    public void LoginOAuth()
+    {
+        _OAuthLogin.SetActive(true);
+        SetOtherMenuInactive(_OAuthLogin);
+    }
 
     public void SetRoomName(string name)
     {
         _roomNameText.text = name; 
     }
+
+    public void SetTourneyName(string name)
+    {
+        _tourneyNameText.text = name; 
+    }
+
 }
