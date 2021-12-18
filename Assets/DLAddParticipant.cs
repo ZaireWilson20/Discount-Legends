@@ -7,7 +7,8 @@ public class DLAddParticipant : MonoBehaviour
 {
 
     [SerializeField] TournamentHandler _tournamentHandler;
-    [SerializeField] Challonge.API.Data.ChallongeUser _user; 
+    [SerializeField] Challonge.API.Data.ChallongeUser _user;
+    [SerializeField] UnityEngine.Events.UnityEvent Success; 
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,10 @@ public class DLAddParticipant : MonoBehaviour
 
            
             //Add user to Participant to list 
+        }
+        else
+        {
+            Success.Invoke(); 
         }
     }
 

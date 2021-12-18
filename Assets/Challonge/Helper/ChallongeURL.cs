@@ -45,6 +45,8 @@ namespace Challonge
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+                callbackMethod.Invoke(null);
+
             }
             else
             {

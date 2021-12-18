@@ -629,18 +629,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 728649509}
-        m_TargetAssemblyTypeName: Challonge.Behaviours.Matches.GetAllMatches, Assembly-CSharp
-        m_MethodName: Send
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &60566984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4035,7 +4023,7 @@ MonoBehaviour:
   challongeUser: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
   tournamentURL: Discount_Legends
   tournamentName: 
-  tournamentType: 0
+  tournamentType: 2
   matchState: 0
   participantID: 
   pageCount: 1
@@ -12761,6 +12749,8 @@ MonoBehaviour:
       pointsForMatchTie: 1
     FreeForAllOptions:
       maxParticipants: 4
+  _user: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
+  _match: {fileID: 11400000, guid: b9f8363d1f9156f4a81924f92c5618e7, type: 2}
 --- !u!4 &2144840021
 Transform:
   m_ObjectHideFlags: 0
@@ -12790,6 +12780,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tournamentHandler: {fileID: 2144840020}
   _user: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
+  Success:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 728649509}
+        m_TargetAssemblyTypeName: Challonge.Behaviours.Matches.GetAllMatches, Assembly-CSharp
+        m_MethodName: Send
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2145030038
 GameObject:
   m_ObjectHideFlags: 0
