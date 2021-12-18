@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Live Match Settings
   m_EditorClassIdentifier: 
   matchId: 
-  tournamentType: 0
+  tournamentType: 2
   tournamentName: 
   tournamentURL: 
   highScore: 0

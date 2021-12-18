@@ -25,6 +25,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     [SerializeField] GameObject _tourneyStartButton; 
     Dictionary<string, bool> roomIsTourneyDict; 
     public static ConnectionManagement instance;
+    public RoomManager roomManager; 
     private bool isTourneyMode;
 
     private void Awake()
@@ -36,6 +37,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        roomManager.SetCharacter();
         PhotonNetwork.LoadLevel(1);
     }
     public override void OnConnectedToMaster()
@@ -153,6 +155,10 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
         isTourneyMode = isT; 
     }
 
+    public bool IsTourneyMode()
+    {
+        return isTourneyMode;
+    }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);

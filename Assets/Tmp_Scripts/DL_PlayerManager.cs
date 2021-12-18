@@ -12,6 +12,7 @@ public class DL_PlayerManager : MonoBehaviourPunCallbacks
 
     PhotonView _pV;
     int Index = 0;
+    public string playerType; 
     private void Awake()
     {
         _pV = GetComponent<PhotonView>();
@@ -31,7 +32,7 @@ public class DL_PlayerManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Instantiated Player Controller");
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint(IndexCount()); 
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CartMC"), spawnPoint.position, spawnPoint.rotation);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", playerType), spawnPoint.position, spawnPoint.rotation);
     }
 
     int IndexCount()

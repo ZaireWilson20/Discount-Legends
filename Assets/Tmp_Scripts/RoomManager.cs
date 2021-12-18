@@ -9,6 +9,11 @@ using UnityEngine.SceneManagement;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector]public RoomManager instance;
+    CharacterSelect characterSelect; 
+    [SerializeField] CharacterSelect tourneySelect; 
+    [SerializeField] CharacterSelect regularSelect;
+    string character; 
+    
     PhotonView _pv;
 
     public TMP_Text itemDebug; 
@@ -48,13 +53,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     }
 
+    public void SetCharacter()
+    {
+        character += "" + characterSelect.GetCharcterPrefab() + characterSelect.GetWeaponPrefab();
+    }
     
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
+        if (ConnectionManagement.instance.IsTourneyMode()) {
+            characterSelect = tourneySelect; 
+        }
+        else
+        {
+            characterSelect = regularSelect; 
+        }
         if(scene.buildIndex == 1) // Game Scene
         {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs",character), Vector3.zero, Quaternion.identity);
         }
     }
 

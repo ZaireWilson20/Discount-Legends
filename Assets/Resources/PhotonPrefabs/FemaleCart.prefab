@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1838000693720715698}
   - component: {fileID: -2282835600549064812}
   m_Layer: 0
-  m_Name: MC
+  m_Name: FemaleCart
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
