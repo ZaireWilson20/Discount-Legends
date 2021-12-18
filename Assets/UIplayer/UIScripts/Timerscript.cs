@@ -8,7 +8,7 @@ public class Timerscript : MonoBehaviour
 {
     public float Timer = 10f;
     public TextMeshProUGUI Timertext;
-    public UnityEngine.Events.UnityEvent _RoundEnd; 
+    public UnityEngine.Events.UnityEvent _RoundEnd;
 
     // Start is called before the first frame update
 
@@ -29,9 +29,9 @@ public class Timerscript : MonoBehaviour
 
         if (Timer == 0)
         {
-            _RoundEnd.Invoke(); 
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.buildIndex + 1);
+            _RoundEnd.Invoke();
+            StartCoroutine(SendChallonge());
+
         }
 
 
@@ -50,6 +50,17 @@ public class Timerscript : MonoBehaviour
         float seconds = Mathf.FloorToInt(TimeDisplay % 60);
 
         Timertext.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+    }
+
+    IEnumerator SendChallonge()
+    {
+        yield return new WaitForSeconds(25f);
+
+
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.buildIndex + 1);
+
 
     }
 }

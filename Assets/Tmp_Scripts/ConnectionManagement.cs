@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using Challonge.API.Data;
 using UnityEngine.SceneManagement; 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -27,6 +28,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     public static ConnectionManagement instance;
     public RoomManager roomManager; 
     private bool isTourneyMode;
+    public ChallongeUser _user;
 
     private void Awake()
     {
@@ -51,6 +53,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined Lobby");
+        PhotonNetwork.NickName = _user.user.username;
 
 
     }
