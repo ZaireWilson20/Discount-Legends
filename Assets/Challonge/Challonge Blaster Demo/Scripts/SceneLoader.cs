@@ -31,7 +31,7 @@ namespace Challonge.Sample
         {
             GetComponent<GameEventListener>().enabled = false;
             Invoke("InvokeLoadScene", .5f);
-            //animator.SetTrigger("Start");
+            animator.SetTrigger("Start");
         }
 
         public void LoadScene(string sceneName)
@@ -44,7 +44,7 @@ namespace Challonge.Sample
         {
             SceneManager.LoadSceneAsync(sceneName).completed += (asyncOperation) =>
             {
-                //animator.SetTrigger("Start");
+                animator.SetTrigger("Start");
                 Invoke("SceneTransitionComplete", .55f);
             };
         }

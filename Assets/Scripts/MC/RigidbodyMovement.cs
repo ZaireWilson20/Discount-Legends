@@ -22,6 +22,7 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     public bool paused = false; 
     public bool stunned = false;
     public int healthBar = 100;
+    private Animator anim; 
 
     public AudioSource Hit;
     public AudioSource Stun;
@@ -30,7 +31,19 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
         playerInputActions = new PlayerInput();
         playerInputActions.Movement.Enable();
         m_MovementSmoothing = 0.1f;
-        _pv = GetComponent<PhotonView>(); 
+        _pv = GetComponent<PhotonView>();
+        m_rigidBody = GetComponent<Rigidbody>(); 
+
+        foreach(Transform t in transform)
+        {
+            if (!t.gameObject.activeSelf) { continue; }
+            Animator ani = t.gameObject.GetComponent<Animator>(); 
+            if(ani != null)
+            {
+                anim = ani;
+                break; 
+            }
+        }
         // playerInputActions.Movement.Jump.performed += Jump;
     }
     void Start()

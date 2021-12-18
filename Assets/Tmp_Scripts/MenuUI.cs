@@ -28,7 +28,7 @@ public class MenuUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuList = new GameObject[11] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _OAuthLogin, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer };
+        menuList = new GameObject[10] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer };
     }
 
     // Update is called once per frame

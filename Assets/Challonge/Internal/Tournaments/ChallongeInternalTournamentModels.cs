@@ -52,8 +52,8 @@ namespace Challonge.Internal.Models
     {
         public string participant_id { get; set; }
         public string score_set { get; set; }
-        public int rank { get; set; }
-        public bool advancing { get; set; }
+        public int? rank { get; set; }
+        public bool? advancing { get; set; }
     }
 
     public class RegistrationOptions

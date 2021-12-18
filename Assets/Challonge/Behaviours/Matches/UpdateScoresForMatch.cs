@@ -37,7 +37,7 @@ namespace Challonge.Behaviours.Matches
                     break;
             }
 
-            UpdateMatchScoresRequest updateMatchScoresRequest = new UpdateMatchScoresRequest(liveMatchData.tournamentURL, liveMatchData.matchId, liveMatchData.GetMatchResults(), scope);
+            UpdateMatchScoresRequest updateMatchScoresRequest = new UpdateMatchScoresRequest(liveMatchData.tournamentURL, liveMatchData.matchId, liveMatchData.tournamentType == TournamentType.Leaderboard, liveMatchData.GetMatchResults(), scope);
 
             API.Matches.UpdateMatchScores(accessToken, updateMatchScoresRequest, (response) =>
             {

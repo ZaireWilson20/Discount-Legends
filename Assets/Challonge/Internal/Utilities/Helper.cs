@@ -90,6 +90,8 @@ namespace Challonge.Internal
                     return Properties.ChallongeInternalProperties.TimeTrail;
                 case Challonge.Properties.TournamentType.GrandPrix:
                     return Properties.ChallongeInternalProperties.GrandPrix;
+                case Challonge.Properties.TournamentType.Leaderboard:
+                    return Properties.ChallongeInternalProperties.Leaderboard;
             }
 
             return "";
@@ -113,6 +115,8 @@ namespace Challonge.Internal
                     return Challonge.Properties.TournamentType.TimeTrail;
                 case Challonge.Properties.TournamentTypeFilter.GrandPrix:
                     return Challonge.Properties.TournamentType.GrandPrix;
+                case Challonge.Properties.TournamentTypeFilter.Leaderboard:
+                    return Challonge.Properties.TournamentType.Leaderboard;
                 default:
                     return Challonge.Properties.TournamentType.SingleElimination;
             }

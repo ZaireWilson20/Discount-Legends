@@ -43,6 +43,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected To Master");
+        DontDestroyOnLoad(roomManager.gameObject);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
     }

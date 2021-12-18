@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: My Challonge User
   m_EditorClassIdentifier: 
   user:
-    username: ZaireWilson98
-    email: zaire.r.wilson@gmail.com
-    imageUrl: https://assets.challonge.com/assets/community_default_avatars/default-avatar-11-e8cbc613c3fd2251c231c1d953a79463b7aa58fd8abf98427a1340a69ef4d1b4.svg
-    accessToken: eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJEaXNjb3VudCBMZWdlbmRzIiwianRpIjoiZDA1OTc4MDYtODM0YS00NDYwLTkwZmMtOWY0MGY4NWE5NmUyIiwiaWF0IjoxNjM5NzA0NzkyLCJuZGYiOjE2Mzk3MDQ3OTIsImV4cCI6MTY0MDMwOTU5MiwidXNlciI6eyJpZCI6NTMwNTIzNCwiZW1haWwiOiJ6YWlyZS5yLndpbHNvbkBnbWFpbC5jb20iLCJncmFudWxhcl9wZXJtaXNzaW9uIjpudWxsfX0.y5_EU18A4oupqHE-9NVEw474WUwpIP_QxlrgfoyvvOUUbyv8ZHUtm7FHv76z94ER3_2Ms7ZjwTdyGijiaCm2Iw
-    refreshToken: -ITDrX6Vjor4U1h1gBH49ECLL1dW6mcMEp-jZaAqQAk
-    tokenExpiration: 604800
+    username: 
+    email: 
+    imageUrl: 
+    accessToken: 
+    refreshToken: 
+    tokenExpiration: 0
     userImage: {fileID: 0}
   Permissions:
     readTournaments: 1

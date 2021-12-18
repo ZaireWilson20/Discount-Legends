@@ -41,11 +41,6 @@ namespace Challonge
         {
             UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageURL);
             yield return www.SendWebRequest();
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            callbackMethod.Invoke(myTexture);
-            /*
-            UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageURL);
-            yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
@@ -55,7 +50,7 @@ namespace Challonge
             {
                 Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
                 callbackMethod.Invoke(myTexture);
-            }*/
+            }
         }
     }
 }

@@ -171,17 +171,42 @@ namespace Challonge.Models
         /// Summary:    Identifier for the match.
         public string matchID;
 
-        public UpdateMatchScoresRequest(string tournamentURL, string matchID, List<MatchResult> matchResults, Scope scope) : base(URL.Generate(scope, "tournaments/" + tournamentURL + "/matches/" + matchID + ".json"))
+        public UpdateMatchScoresRequest(string tournamentURL, string matchID, bool isLeaderboard, List<MatchResult> matchResults, Scope scope) : base(URL.Generate(scope, "tournaments/" + tournamentURL + "/matches/" + matchID + ".json"))
         {
             this.tournamentURL = tournamentURL;
             this.matchID = matchID;
             for (int i = 0; i < matchResults.Count; i++)
-                AddValuesFromMatchResult(matchResults[i]);
+                AddValuesFromMatchResult(matchResults[i], isLeaderboard);
         }
 
-        public void AddValuesFromMatchResult(MatchResult matchResult)
+        public void AddValuesFromMatchResult(MatchResult matchResult, bool isLeaderboard)
         {
-            AddValues(matchResult.participantId, matchResult.score, matchResult.rank, matchResult.isAdvancing);
+            if (isLeaderboard)
+                AddValues(matchResult.participantId, matchResult.score);
+            else
+                AddValues(matchResult.participantId, matchResult.score, matchResult.rank, matchResult.isAdvancing);
+        }
+
+        public void AddValues(string participantID, int score)
+        {
+            Internal.Models.MatchResult match = new Internal.Models.MatchResult();
+            match.participant_id = participantID;
+            match.score_set = score.ToString();
+
+            bool found = false;
+            for (int i = 0; i < MatchResults.Count; i++)
+            {
+                if (MatchResults[i].participant_id == participantID)
+                {
+                    match.score_set = MatchResults[i].score_set + "," + match.score_set;
+                    found = true;
+                    MatchResults[i] = match;
+                    break;
+                }
+            }
+
+            if (!found)
+                MatchResults.Add(match);
         }
 
         #region Documentation

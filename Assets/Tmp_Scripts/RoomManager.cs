@@ -24,7 +24,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
         instance = this; 
     }
     // Start is called before the first frame update

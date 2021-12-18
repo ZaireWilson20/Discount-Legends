@@ -8,7 +8,7 @@ public class CreateTournamentMenu : MonoBehaviour
 {
     public Challonge.Behaviours.Tournament.CreateTournament createTournament;
 
-    public TMP_Text tournamentName;
+    public TMP_InputField tournamentName;
 
     public GameObject parentParticipants;
 
@@ -18,21 +18,8 @@ public class CreateTournamentMenu : MonoBehaviour
 
         List<Participant> participants = new List<Participant>();
 
-        //List<TMP_InputField> participantInputs = parentParticipants.game//new List<TMP_InputField>(parentParticipants.GetComponentsInChildren<TMP_InputField>(true));
+        List<TMP_InputField> participantInputs = new List<TMP_InputField>(parentParticipants.GetComponentsInChildren<TMP_InputField>(true));
 
-
-        foreach(Transform g in parentParticipants.transform)
-        {
-            PlayerListObject playa = g.gameObject.GetComponent<PlayerListObject>(); 
-            if(playa != null & playa._playerName.text != "")
-            {
-                Participant p = new Participant(playa._playerName.text);
-                participants.Add(p);
-
-            }
-        }
-
-        /*
         for(int i = 0; i < participantInputs.Count; i++)
         {
             if(participantInputs[i].text != "")
@@ -42,10 +29,9 @@ public class CreateTournamentMenu : MonoBehaviour
                 p.seed = i + 1;
                 participants.Add(p);
             }
-        }*/
+        }
 
         createTournament.createTournamentParams.tournamentName = tournamentName.text;
-        Debug.Log(participants.Count);
         createTournament.Send(participants);
     }
 }
