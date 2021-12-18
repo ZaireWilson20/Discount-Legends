@@ -12,7 +12,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
     CharacterSelect characterSelect; 
     [SerializeField] CharacterSelect tourneySelect; 
     [SerializeField] CharacterSelect regularSelect;
-    string character; 
+    public GameObject gmananger; 
+    public string character; 
     
     PhotonView _pv;
 
@@ -24,6 +25,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+        gmananger = GameObject.Instantiate(gmananger);
         instance = this; 
     }
     // Start is called before the first frame update
@@ -52,9 +54,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     }
 
-    public void SetCharacter()
+    public string SetCharacter()
     {
-        character += "" + characterSelect.GetCharcterPrefab() + characterSelect.GetWeaponPrefab();
+        return characterSelect.GetCharcterPrefab() + characterSelect.GetWeaponPrefab();
     }
     
 
@@ -69,6 +71,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         if(scene.buildIndex == 1) // Game Scene
         {
+            gmananger.GetComponent<GManager>().playType = SetCharacter();
+
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
         }
     }

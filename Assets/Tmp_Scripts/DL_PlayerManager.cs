@@ -23,6 +23,7 @@ public class DL_PlayerManager : MonoBehaviourPunCallbacks
     {
         if (_pV.IsMine)
         {
+            //playerType = 
             CreateController(); 
         }
 
@@ -30,6 +31,7 @@ public class DL_PlayerManager : MonoBehaviourPunCallbacks
 
     void CreateController()
     {
+        playerType = GameObject.Find("RoomManager").GetComponent<RoomManager>().gmananger.GetComponent<GManager>().playType;
         Debug.Log("Instantiated Player Controller");
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint(IndexCount()); 
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", playerType), spawnPoint.position, spawnPoint.rotation);

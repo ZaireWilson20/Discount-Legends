@@ -9,6 +9,8 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     
     GameObject[] items;
     PhotonView PV;
+    bool itemsChecked = false;
+    bool needToCheckItems = false;
     //DEBUG
     TextMeshProUGUI itemList;
     //Dictionary<string, int> playerScores
@@ -31,18 +33,22 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     {
 
         //Eventually need to figure out a way to stop this from happening whenever player properties are changed
-        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
-        foreach (GameObject item in items)
+        if (!itemsChecked && needToCheckItems)
         {
-            Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties.ToString()); //DEBUG
+            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+            foreach (GameObject item in items)
+            {
+                Debug.Log(changedProps[item.name]); //DEBUG
 
-            item.GetComponent<Item>().setPoints((int)changedProps[item.name]);
-        }
+                item.GetComponent<Item>().setPoints((int)changedProps[item.name]);
+            }
 
 
-        foreach (GameObject item in items)
-        {
-            Debug.Log(item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"); //DEBUG
+            foreach (GameObject item in items)
+            {
+                Debug.Log(item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"); //DEBUG
+            }
+            itemsChecked = true;
         }
 
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
@@ -63,12 +69,14 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         {
             foreach (GameObject item in items)
             {
+
                 Debug.Log(item.name);
                 string name = item.name;
                 _myCustomScores.Add(item.name, item.GetComponent<Item>().getPoints());
                 //_myCustomScores[name] = 1;//item.GetComponent<Item>().getPoints();
                 //PhotonNetwork.LocalPlayer.SetCustomProperties(_myCustomScores);
             }
+            needToCheckItems = true;
             PhotonNetwork.SetPlayerCustomProperties(_myCustomScores);
         }
 
