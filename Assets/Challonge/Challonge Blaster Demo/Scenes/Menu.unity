@@ -2452,7 +2452,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059548630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 775f74480662f814f8c3133bcda9febc, type: 3}
   m_Name: 
@@ -3412,7 +3412,7 @@ MonoBehaviour:
   scope: 1
   applicationData: {fileID: 11400000, guid: 173c7d7c01902184eb43c3c065405023, type: 2}
   challongeUser: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
-  createTournamentParams: {fileID: 11400000, guid: 5a23340a3ac19bd4e8d99720c1e2996e, type: 2}
+  createTournamentParams: {fileID: 11400000, guid: 5c3b34f333beadf4fb973e8b9ed1a252, type: 2}
   startTournamentAfterCreated: 1
   onCreateTournamentSuccess: {fileID: 11400000, guid: 618ff6d507323a7489d3c13e528d1a0b, type: 2}
   onError:
@@ -3507,7 +3507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentGameObject: {fileID: 1768093035}
   uiTournamentItemPrefab: {fileID: 7306761457468164677, guid: 46f178b63c816f449955069b11d9c251, type: 3}
-  tournamentStateFilter: 2
+  tournamentStateFilter: 0
   maxTournaments: 4
   onUiTournamentItemClickAction:
     m_PersistentCalls:
@@ -9794,7 +9794,7 @@ PrefabInstance:
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 4784419799822677917}
+      objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -9809,7 +9809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: LoadScene
+      value: Send
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -9817,7 +9817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Challonge.Sample.SceneLoader, Assembly-CSharp
+      value: Challonge.Behaviours.Tournament.GetTournament, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

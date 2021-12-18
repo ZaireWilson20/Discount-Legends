@@ -200,17 +200,27 @@ namespace Challonge.Internal
                 }
                 if (responseData.relationships.participants != null)
                 {
-                    for (int i = 0; i < responseData.relationships.participants.data.Count; i++)
+                    if (Included != null)
                     {
-                        for (int k = 0; k < Included.Count; k++)
-                            if (Included[k].type == Properties.ChallongeInternalProperties.ParticipantType
-                                && responseData.relationships.participants.data[i].id == Included[k].id)
-                                match.Participants.Add(ChallongeParse.ParseParticipantData(Included[k]));
+                        for (int i = 0; i < responseData.relationships.participants.data.Count; i++)
+                        {
 
-                        //if (AllParticipantDetails != null)
-                        //    match.Participants.Add(GetParticipantDetails(responseData.relationships.participants.data[i].id, AllParticipantDetails));
-                        //else
-                        //    match.Participants.Add(ChallongeParse.ParseParticipantData(responseData.relationships.participants.data[i]));
+                            for (int k = 0; k < Included.Count; k++)
+                                if (Included[k].type == Properties.ChallongeInternalProperties.ParticipantType
+                                    && responseData.relationships.participants.data[i].id == Included[k].id)
+                                    match.Participants.Add(ChallongeParse.ParseParticipantData(Included[k]));
+
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < responseData.relationships.participants.data.Count; i++)
+                        {
+                            if (AllParticipantDetails != null)
+                                match.Participants.Add(GetParticipantDetails(responseData.relationships.participants.data[i].id, AllParticipantDetails));
+                            else
+                                match.Participants.Add(ChallongeParse.ParseParticipantData(responseData.relationships.participants.data[i]));
+                        }
                     }
                 }
             }
