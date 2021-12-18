@@ -6,19 +6,19 @@ public class Item : MonoBehaviour
 {
     private int basePrice;
     private  int discountPrice;
-    private int score;
+    public int score;
     //variable for discount percentage
     
    
 
-    void Awake(){
+    // void Awake(){
        
-        discountPrice = Random.Range(1,10) * 100;
-        while(basePrice < discountPrice){ // make sure you get a baseprice higher than discountprice
-            basePrice = Random.Range(1,10) * 300;
-        }
-        score = basePrice-discountPrice;
-    }
+    //     discountPrice = Random.Range(1,10) * 100;
+    //     while(basePrice < discountPrice){ // make sure you get a baseprice higher than discountprice
+    //         basePrice = Random.Range(1,10) * 300;
+    //     }
+    //     score = basePrice-discountPrice;
+    // }
 
     public int getPoints() {
         return score;

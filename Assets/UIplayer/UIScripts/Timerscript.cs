@@ -29,9 +29,9 @@ public class Timerscript : MonoBehaviour
 
         if (Timer == 0)
         {
-            _RoundEnd.Invoke(); 
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.buildIndex + 1);
+             _RoundEnd.Invoke();
+            StartCoroutine(SendChallonge()); 
+
         }
 
 
@@ -51,5 +51,15 @@ public class Timerscript : MonoBehaviour
 
         Timertext.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
+    }
+
+      IEnumerator SendChallonge() {
+            yield return new WaitForSeconds(25f) ;
+          
+        
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.buildIndex + 1);
+       
+        
     }
 }
