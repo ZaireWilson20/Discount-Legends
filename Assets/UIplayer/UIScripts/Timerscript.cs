@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class Timerscript : MonoBehaviour
 {
-    public float Timer = 90f;
-    public Text Timertext;
+    public float Timer = 120f;
+    public TextMeshProUGUI Timertext;
 
     // Start is called before the first frame update
 
