@@ -211,10 +211,21 @@
                 {
                     "name": "",
                     "id": "8349665b-64cb-4f6c-91e8-104396118b67",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "ArrowKeys;WASD",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf8669a7-0048-4bc3-89f1-2994a64b6a64",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -238,22 +249,11 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "1d78362c-356b-49d6-bbc6-5876cf5fe437",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "ArrowKeys",
-                    "action": "PickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c022eefa-198a-48fe-a7b6-5ddeaf776f1c",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "WASD",
+                    "groups": "WASD;ArrowKeys",
                     "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
