@@ -397,6 +397,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.74
       objectReference: {fileID: 0}
+    - target: {fileID: 7064168562047515805, guid: 17016b3264ca6b64e8f148bd7cf7c2c9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2371810793249365548, guid: 17016b3264ca6b64e8f148bd7cf7c2c9, type: 3}
     - {fileID: 2371810793249365555, guid: 17016b3264ca6b64e8f148bd7cf7c2c9, type: 3}
@@ -455,8 +459,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 8475190482018785874}
   - {fileID: 8452285394421666641}
+  - {fileID: 8475190482018785874}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
