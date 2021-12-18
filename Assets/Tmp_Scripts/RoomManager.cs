@@ -71,7 +71,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         if(scene.buildIndex == 1) // Game Scene
         {
-            gmananger.GetComponent<GManager>().playType = SetCharacter();
+            gmananger.GetComponent<GManager>().playType = "Female" + characterSelect.GetWeaponPrefab();
 
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
         }

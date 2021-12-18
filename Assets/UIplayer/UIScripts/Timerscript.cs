@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class Timerscript : MonoBehaviour
 {
-    public float Timer = 120f;
+    public float Timer = 10f;
     public TextMeshProUGUI Timertext;
+    public UnityEngine.Events.UnityEvent _RoundEnd; 
 
     // Start is called before the first frame update
 
@@ -28,6 +29,7 @@ public class Timerscript : MonoBehaviour
 
         if (Timer == 0)
         {
+            _RoundEnd.Invoke(); 
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex + 1);
         }

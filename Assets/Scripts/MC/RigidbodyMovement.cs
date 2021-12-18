@@ -70,6 +70,15 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
      yaw = Mouse.current.delta.ReadValue().x * Time.deltaTime * camRotateSpeed;
         //prevCamPosX = Mouse.current.position.ReadValue().x;
      transform.Rotate(Vector3.up * yaw);
+        if(direction.magnitude > 0) {
+            anim.SetBool("Running", true);
+            anim.SetBool("Idle", false);
+        }
+        else
+        {
+            anim.SetBool("Running", false);
+            anim.SetBool("Idle", true);
+        }
 
     }
 
@@ -87,7 +96,7 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     public virtual void Attack()
     {
         if (!_pv.IsMine) { return; }
-
+        anim.SetTrigger("Attack");
     }
 
     public void TakeDamage(int dmgAmount)
@@ -112,6 +121,7 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
         if (healthBar <= 0 && !stunned) {
            _pv.RPC("RPC_PlaySound", RpcTarget.All); //_pv.RPC calls are necessary to play sound for everyone involved
             stunned = true;
+            anim.SetBool("Stunned", true); 
             StartCoroutine(Stunned()); // delay movement
         }
         
@@ -132,5 +142,6 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
          yield return new WaitForSeconds(5f);
          healthBar = 100;
          stunned = false;
+        anim.SetBool("Stunned", false); 
     }
 }

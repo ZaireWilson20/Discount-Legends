@@ -8,6 +8,7 @@ public class ScoreboardItem : MonoBehaviour
 {
     public Text usernameText;
     public Text ScoreText;
+    public int score = 0; 
 
     public void Initialize(Player player)
     {
@@ -16,6 +17,7 @@ public class ScoreboardItem : MonoBehaviour
 
     public void updateScore(int points) {
         ScoreText.text = "" + points;
+        score += points; 
     }
 
 }
