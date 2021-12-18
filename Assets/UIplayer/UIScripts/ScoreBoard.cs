@@ -10,7 +10,12 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform container;
     [SerializeField] GameObject scoreboardItemPrefab;
-    [SerializeField] Dictionary<int, ScoreboardItem> scoreboardItems = new Dictionary<int, ScoreboardItem>(); 
+    [SerializeField] Dictionary<int, ScoreboardItem> scoreboardItems = new Dictionary<int, ScoreboardItem>();
+    int playerID;
+    public UnityEngine.Events.UnityEvent OnScoreUpdated;
+
+
+    public Challonge.API.Data.ChallongeMatch challongeMatch;
     //Serialize Field is only here for debugging.
 
    
@@ -49,10 +54,16 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
        item.Initialize(player);
        item.updateScore(0);
        int id = player.ActorNumber;
+        playerID = id; 
        scoreboardItems[id] =item;
 
 
   }
+
+    public int GetPlayerScore()
+    {
+        return scoreboardItems[playerID].GetComponent<ScoreboardItem>().score; 
+    }
    
 
     void RemoveScoreboarditem(Player player)//removes players
@@ -65,6 +76,12 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
     public void UpdateScoreboardItem( int score , int id){
         scoreboardItems[id].updateScore(score);
         
+    }
+
+    public void SendScoresToChallonge()
+    {
+        challongeMatch.participantList[0].matchResult.score = GetPlayerScore();
+        OnScoreUpdated.Invoke();
     }
 
 }
