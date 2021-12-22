@@ -388,8 +388,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 88357416, guid: ed051f6c30dfd0744ac3628004825a52, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 88357416, guid: ed051f6c30dfd0744ac3628004825a52, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924039610, guid: ed051f6c30dfd0744ac3628004825a52, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1924039610, guid: ed051f6c30dfd0744ac3628004825a52, type: 3}
       propertyPath: m_LocalScale.z
@@ -2159,7 +2167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5143374702210219901, guid: a60db61b2436ac84089af3bf88249fa3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.3
+      value: 32.764
       objectReference: {fileID: 0}
     - target: {fileID: 5143374702210219901, guid: a60db61b2436ac84089af3bf88249fa3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2214,8 +2222,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5143374702210219902, guid: a60db61b2436ac84089af3bf88249fa3, type: 3}
   m_PrefabInstance: {fileID: 900025887}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &900025890
-MeshCollider:
+--- !u!65 &900025890
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2224,10 +2232,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43423630108879514, guid: f76e9e22c77c10d4fb5ee04070e8e875, type: 2}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.1335636}
+  m_Center: {x: 1.5481958e-15, y: -0.43922865, z: -0.3910553}
 --- !u!1 &902940777
 GameObject:
   m_ObjectHideFlags: 0
@@ -2457,7 +2464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &935867249
 Transform:
   m_ObjectHideFlags: 0
