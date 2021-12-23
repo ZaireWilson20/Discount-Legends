@@ -26,8 +26,9 @@ public class CartMovement : RigidbodyMovement
             Debug.Log("cart attack");
             m_rigidBody.AddForce(transform.rotation * Vector3.forward * attackForce);
             StartCoroutine(DamageOtherPlayer());
+            base.Attack(); 
         }
-        base.Attack(); 
+        
     }
 
     private IEnumerator DamageOtherPlayer()

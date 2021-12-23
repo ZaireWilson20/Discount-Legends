@@ -8,6 +8,7 @@ using System;
 
 public class RigidbodyMovement : MonoBehaviourPunCallbacks
 {
+
     [SerializeField] protected PhotonView _pv; 
      protected PlayerInput playerInputActions;
      Vector3 move;
@@ -18,7 +19,7 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
      private Vector3 direction;
      public float speed = 10f;
     public float yaw = 0f;
-    public float camRotateSpeed;
+    public float camRotateSpeed = 1000f;
     public bool paused = false; 
     public bool stunned = false;
     public int healthBar = 100;
@@ -27,6 +28,9 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     public AudioSource Hit;
     public AudioSource Stun;
 
+
+    private Vector2 input_View;
+    private Vector2 input_Move;
      void Awake(){
         playerInputActions = new PlayerInput();
         playerInputActions.Movement.Enable();
@@ -49,7 +53,8 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     void Start()
     {
         playerInputActions.Movement.Attack.performed += _ => Attack(); 
-        
+        playerInputActions.Movement.View.performed += x => input_View = x.ReadValue<Vector2>();
+        playerInputActions.Movement.Move.performed += x => input_Move = x.ReadValue<Vector2>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -66,8 +71,8 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     {
         if (!transform.parent.gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine) { return;  }
      Vector2 inputDir = playerInputActions.Movement.Move.ReadValue<Vector2>();
-     direction = (transform.rotation * Vector3.forward * inputDir.y + transform.rotation * Vector3.right * inputDir.x).normalized;
-     yaw = Mouse.current.delta.ReadValue().x * Time.deltaTime * camRotateSpeed;
+      direction = (transform.rotation * Vector3.forward * inputDir.y + transform.rotation * Vector3.right * inputDir.x).normalized;
+     yaw = input_View.normalized.x * Time.deltaTime * camRotateSpeed;
         //prevCamPosX = Mouse.current.position.ReadValue().x;
      transform.Rotate(Vector3.up * yaw);
         if(direction.magnitude > 0) {
@@ -79,6 +84,8 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
             anim.SetBool("Running", false);
             anim.SetBool("Idle", true);
         }
+
+        Debug.Log("I am Looking " + input_View);
 
     }
 
@@ -96,6 +103,7 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     public virtual void Attack()
     {
         if (!_pv.IsMine) { return; }
+        // Make sure this doesn't play while stunned and can't attack
         anim.SetTrigger("Attack");
     }
 
