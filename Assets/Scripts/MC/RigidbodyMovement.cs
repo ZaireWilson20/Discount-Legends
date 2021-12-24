@@ -54,7 +54,6 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     {
         playerInputActions.Movement.Attack.performed += _ => Attack(); 
         playerInputActions.Movement.View.performed += x => input_View = x.ReadValue<Vector2>();
-        playerInputActions.Movement.Move.performed += x => input_Move = x.ReadValue<Vector2>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -70,8 +69,8 @@ public class RigidbodyMovement : MonoBehaviourPunCallbacks
     void Update()
     {
         if (!transform.parent.gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine) { return;  }
-     Vector2 inputDir = playerInputActions.Movement.Move.ReadValue<Vector2>();
-      direction = (transform.rotation * Vector3.forward * inputDir.y + transform.rotation * Vector3.right * inputDir.x).normalized;
+        input_Move = playerInputActions.Movement.Move.ReadValue<Vector2>();
+      direction = (transform.rotation * Vector3.forward * input_Move.y + transform.rotation * Vector3.right * input_Move.x).normalized;
      yaw = input_View.normalized.x * Time.deltaTime * camRotateSpeed;
         //prevCamPosX = Mouse.current.position.ReadValue().x;
      transform.Rotate(Vector3.up * yaw);

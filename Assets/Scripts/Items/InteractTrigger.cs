@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class InteractTrigger : MonoBehaviourPunCallbacks
 {
   private PlayerInput playerInputActions;
+  
   [SerializeField]
   private GameObject Trigger;
 

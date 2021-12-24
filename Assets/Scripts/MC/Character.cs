@@ -3,38 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.Audio;
 using System;
-public abstract class Character : MonoBehaviourPunCallbacks
+public class Character : MonoBehaviourPunCallbacks
 {
     [SerializeField] protected CharacterStats _stats;
     protected string name;
     protected float dmgAmnt;
     protected float healthAmnt;
+    protected int id;
     [SerializeField] protected float speed;
-    protected AudioClip _hit;
-    protected AudioClip _stun;
+
+    protected AudioClip _hit; // In Scriptable Object
+    protected AudioClip _stun; // In Scriptable Object
 
     [SerializeField] protected PhotonView _pv;
+
     protected PlayerInput _playerInputActions;
     [SerializeField] protected Rigidbody _rigidBody;
+    [SerializeField] protected GameObject _playerCam;
+    [SerializeField] protected BoxCollider _trigger;
 
-    Vector3 move;
-    [SerializeField] protected float movementSmoothing = 0.1f;
-    private Vector3 velocity = Vector3.zero;
-    private Vector3 direction;
-    private float yaw = 0f;
-    private float camRotateSpeed;
     protected Vector2 input_view;
     protected Vector2 input_move;
+    private Vector3 direction;
+    private Vector3 move;
+    private Vector3 velocity = Vector3.zero;
+    [SerializeField] protected float movementSmoothing = 0.1f;
+    private const float camRotateSpeed = 100f;
+    private float yaw = 0f;
+
     protected bool stunned = false;
     protected bool canAttack = true;
-    protected int playerScore = 0;
-    protected Animator _anim;
+
+    [SerializeField] protected Animator _anim;
     [SerializeField] protected AudioSource _audio;
 
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
+    protected int playerScore = 0;
 
     void Awake()
     {
@@ -49,73 +57,99 @@ public abstract class Character : MonoBehaviourPunCallbacks
         _playerInputActions.Movement.Enable();
         _playerInputActions.Movement.Attack.performed += _ => Attack();
         _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized;
-        _playerInputActions.Movement.Move.performed += x => input_move = x.ReadValue<Vector2>();
-
+        _playerInputActions.Interact.Enable();
+        _playerInputActions.Interact.PickUp.performed += _ => ItemTriggerOn();
+        _playerInputActions.Interact.PickUp.canceled += _ => ItemTriggerOff();
+        
         _pv = GetComponent<PhotonView>();
         _rigidBody = GetComponent<Rigidbody>();
-        _anim = GetComponent<Animator>();
         _audio = GetComponent<AudioSource>();
-        _scoreBoard = GameObject.Find("Scoreboard").GetComponent<ScoreBoard>();
-        _record = GameObject.Find("PlayerRecord").GetComponent<PlayerRecord>();
+
+          if (_pv.IsMine && _playerCam != null)
+        {
+            _playerCam.SetActive(true);
+        }
+
+        //GameObject declaration/If statements are necessary for testing in levels that aren't Multiplayer/are Offline
+        GameObject scoreBoard = GameObject.Find("Scoreboard");
+        if (scoreBoard != null)
+        {
+            _scoreBoard = scoreBoard.GetComponent<ScoreBoard>();
+        }
+
+        GameObject record = GameObject.Find("PlayerRecord");
+        if (record != null)
+        {
+            _record = record.GetComponent<PlayerRecord>();
+        }
     }
+
+    //FOR OFFLINE MODE ONLY
+    //UNCOMMENT WHEN TESTING OFFLINE
+    // void Start()
+    // {
+    //     PhotonNetwork.OfflineMode = true;
+
+    // }
+
 
     void Update()
     {
         if (!_pv.IsMine) return;
-
         RotateMove();
-        //Instead of having it on Update, put it inside the relevant methods
-        AnimationState();
+        AnimationState();  //Instead of having it on Update, put it inside the relevant methods
 
     }
 
     void FixedUpdate()
     {
         if (!_pv.IsMine) return;
-        Move();
+        if (!stunned) Move();
     }
 
     protected void Move()
     {
+        input_move = _playerInputActions.Movement.Move.ReadValue<Vector2>();
+        direction = (transform.rotation * Vector3.forward * input_move.y + transform.rotation * Vector3.right * input_move.x).normalized;
         move = direction * speed;
         Vector3 targetVelocity = new Vector3(move.x * Time.fixedDeltaTime * speed, _rigidBody.velocity.y, move.z * speed * Time.fixedDeltaTime);
         _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref velocity, movementSmoothing);
     }
-
-
     protected void RotateMove()
     {
-        direction = (transform.rotation * Vector3.forward * input_move.y + transform.rotation * Vector3.right * input_move.x).normalized;
         yaw = input_view.normalized.x * Time.deltaTime * camRotateSpeed;
         transform.Rotate(Vector3.up * yaw);
     }
     protected void AnimationState()
     {
-        if (_anim == null)
-        {
-            return;
-        }
-        
+        if (_anim == null) return;
+
         if (direction.magnitude > 0)
         {
             _anim.SetBool("Running", true);
             _anim.SetBool("Idle", false);
-        }else if(direction.magnitude <= 0)
+        }
+        else if (direction.magnitude <= 0)
         {
             _anim.SetBool("Running", false);
             _anim.SetBool("Idle", true);
         }
 
-        if(stunned){
-            _anim.SetBool("Stunned", true); 
+        if (stunned)
+        {
+            _anim.SetBool("Stunned", true);
         }
 
     }
-    protected abstract void Attack();
+    protected virtual void Attack()
+    {
+        if (!_pv.IsMine) return;
+        _anim.SetTrigger("Attack");
+    }
 
     protected void TakeDamage(int damage)
     {
-         if (!_pv.IsMine) return;
+        if (!_pv.IsMine) return;
         _pv.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
@@ -123,54 +157,109 @@ public abstract class Character : MonoBehaviourPunCallbacks
 
     public virtual void RPC_TakeDamage(int damage)
     {
-        if(!stunned){ // Necessary to stop playing hit sounds while player is stunned/ stop them from lowering health further
-           _pv.RPC("RPC_PlayHit", RpcTarget.All);
+        if (!stunned)
+        { // Necessary to stop playing hit sounds while player is stunned/ stop them from lowering health further
+            _pv.RPC("RPC_PlaySound", RpcTarget.All, "Hit");
             healthAmnt -= damage;
         }
 
-        if (healthAmnt <= 0 && !stunned) {
-           _pv.RPC("RPC_PlaySound", RpcTarget.All); //_pv.RPC calls are necessary to play sound for everyone involved
+        if (healthAmnt <= 0 && !stunned)
+        {
+            _pv.RPC("RPC_PlaySound", RpcTarget.All, "Stun"); //_pv.RPC calls are necessary to play sound for everyone involved
             stunned = true;
-            // StartCoroutine(Stunned()); // delay movement
+            StartCoroutine(Stunned()); // delay movement
         }
-    }
-
-    protected virtual void Stun()
-    {
-
-    }
-
-    [PunRPC]
-
-    public virtual void RPC_Stun()
-    {
-
-    }
-
-    protected virtual void PlaySound(string sound)
-    {
-
     }
 
     public virtual void RPC_PlaySound(string sound)
     {
+        if (sound == "Stun" && _stun != null)
+        {
+            _audio.clip = _stun;
+            _audio.Play();
+        }
+        if (sound == "Hit" && _hit != null)
+        {
+            _audio.clip = _hit;
+            _audio.Play();
+        }
+    }
+
+    protected IEnumerator Stunned()
+    {
+        yield return new WaitForSeconds(5f);
+        healthAmnt = _stats.healthAmount;
+        stunned = false;
+        if (_anim != null)
+        {
+            _anim.SetBool("Stunned", false);
+        }
+    }
+
+
+    public void setPlayerScore(int score)
+    {
+        //This Code block is required if running offline
+        if(_pv.Owner == null ) { 
+            id = 0; } else {
+        id = _pv.Owner.ActorNumber;
+        }
+        playerScore += score;
+        UpdateRecord();
+        UpdateScoreboard();
+    }
+
+    public void UpdateScoreboard()
+    {
+        if (_scoreBoard == null) return;
+        _scoreBoard.UpdateScoreboardItem(playerScore, id);
 
     }
 
-    protected IEnumerator DamageOtherPlayer()
+    public void UpdateRecord()
     {
-        yield return null;
+        if (_record == null) return;
+        string nickname;
+        if (_pv.Owner == null) {
+            nickname = "HelloWorld";
+        } else {
+            nickname = _pv.Owner.NickName;
+        }
+        _record.UpdateRecord(playerScore, nickname);
     }
 
-
-    public void UpdateScoreboard(int score)
+    public void ItemTriggerOn()
     {
-
+        if (!_pv.IsMine) return;
+        _pv.RPC("UpdateItemTriggerEveryone", RpcTarget.All, _pv.ViewID, true);
     }
 
-    public void UpdateRecord(int score)
+    public void ItemTriggerOff()
     {
+        if (!_pv.IsMine) return;
+        _pv.RPC("UpdateItemTriggerEveryone", RpcTarget.All, _pv.ViewID, false);
+    }
 
+    [PunRPC]
+    private void UpdateItemTriggerEveryone(int InstanceID, bool active)
+    {
+        if (InstanceID == _pv.ViewID)
+        {
+            if (_trigger == null) return;
+            _trigger.enabled = active;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Item")
+        {
+            Item points = other.gameObject.GetComponent<Item>();
+            if (points == null) return;
+            int point = points.getPoints();
+            setPlayerScore(point);
+            Destroy(other.gameObject);
+        }
     }
 
 }
