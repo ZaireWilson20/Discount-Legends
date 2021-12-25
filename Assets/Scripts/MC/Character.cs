@@ -103,6 +103,7 @@ public class Character : MonoBehaviourPunCallbacks
         if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
         RotateMove();
         AnimationState();  //Instead of having it on Update, put it inside the relevant methods
+       
         //DEBUG FOR TRIGGER ERROR
         if (!_trigger.enabled){
             attackedPlayer = null;
@@ -171,7 +172,6 @@ public class Character : MonoBehaviourPunCallbacks
         if (!_pv.IsMine) return;
         if (!stunned)
         { // Necessary to stop playing hit sounds while player is stunned/ stop them from lowering health further
-            Debug.Log("Playing Hit Sound");
             _pv.RPC("RPC_PlaySound", RpcTarget.All, "Hit");
             healthAmnt = healthAmnt - damage;
         }
@@ -266,12 +266,8 @@ public class Character : MonoBehaviourPunCallbacks
     [PunRPC]
     protected void UpdateTriggerEveryone(int InstanceID, bool active, string action)
     {
-        if (InstanceID == _pv.ViewID)
-        {
             if (_trigger == null) return;
             _trigger.enabled = active;
-        }
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -288,7 +284,6 @@ public class Character : MonoBehaviourPunCallbacks
 
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log(other.name);
             attackedPlayer = other.gameObject.GetComponent<Character>();
             attackHit = true;
         }
@@ -305,7 +300,6 @@ public class Character : MonoBehaviourPunCallbacks
 
     protected IEnumerator AttackWait()
     {
-        Debug.Log("IN COROUTINE");
         bool finishCheck = false;
         float timeElapsed = 0;
         canAttack = false;
