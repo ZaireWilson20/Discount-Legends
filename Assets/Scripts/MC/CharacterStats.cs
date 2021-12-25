@@ -9,6 +9,7 @@ public class CharacterStats : ScriptableObject
     public string characterName;
      public int damageAmount;
      public int healthAmount;
+     public float attackCoolDown;
      public float speed;
      public AudioClip Hit;
      public AudioClip Stun;

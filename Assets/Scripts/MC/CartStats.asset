@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15b868b8c17d3884e82ad710fc42bc88, type: 3}
-  m_Name: CartCharacter
+  m_Name: CartStats
   m_EditorClassIdentifier: 
   characterName: CartCharacter
   damageAmount: 25
   healthAmount: 100
+  attackCoolDown: 2
   speed: 25
   Hit: {fileID: 8300000, guid: cb14bf2648c54a64bb64367e2bc47ca5, type: 3}
   Stun: {fileID: 8300000, guid: 438761cf08a55ef41a4c5fb248e73db6, type: 3}
