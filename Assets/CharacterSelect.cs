@@ -18,10 +18,10 @@ public class CharacterSelect : MonoBehaviour
     {
         spriteToPrefab = new Dictionary<Sprite, string>();
         spriteToPrefabWeapon = new Dictionary<Sprite, string>(); 
-        spriteToPrefab.Add(characterSprites[0], "Female");   
-        spriteToPrefab.Add(characterSprites[1], "Female");   
+        spriteToPrefab.Add(characterSprites[0], "Fem");   
+        spriteToPrefab.Add(characterSprites[1], "Fem");   
         spriteToPrefabWeapon.Add(weaponSprites[0], "Cart");   
-        spriteToPrefabWeapon.Add(weaponSprites[1], "Backpack");
+        spriteToPrefabWeapon.Add(weaponSprites[1], "Back");
 
         characterImage.sprite = characterSprites[0];
         weaponImage.sprite = weaponSprites[0];

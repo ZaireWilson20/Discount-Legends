@@ -40,7 +40,7 @@ public class Character : MonoBehaviourPunCallbacks
     protected float dmgAmnt;
     protected float healthAmnt;
     protected int id; // Essential for updating player score/record correctly. Tied to PV
-    [SerializeField] protected float speed;
+    protected float speed;
 
     protected AudioClip _hit; // In Scriptable Object
     protected AudioClip _stun; // In Scriptable Object
