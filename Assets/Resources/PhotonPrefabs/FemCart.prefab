@@ -546,13 +546,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 5362991dc70eebc469ad30ff7895a6e9, type: 2}
   speed: 25
+  _audio: {fileID: 3315242595470215461}
+  _anim: {fileID: 6464107978665651160}
   _pv: {fileID: 1312340647972428944}
   _rigidBody: {fileID: 4260892618888380807}
   _playerCam: {fileID: 4260892617979780679}
   _trigger: {fileID: 7064374450190913533}
   movementSmoothing: 0.1
-  _anim: {fileID: 6464107978665651160}
-  _audio: {fileID: 3315242595470215461}
 --- !u!54 &4260892618888380807
 Rigidbody:
   m_ObjectHideFlags: 0

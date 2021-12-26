@@ -8,22 +8,52 @@ using UnityEngine.Audio;
 using System;
 public class Character : MonoBehaviourPunCallbacks
 {
-    [SerializeField] protected CharacterStats _stats;
+
+    //TODO: Section this class off into interface for movement, actions, and score update. 
+    //TODO: Rework this class to allow for offline playtesting as well.
+
+    /*
+    * Variable declarations are sectioned off according to what they will be used for.
+        1. Character type stats
+        2. Audio
+        3. Animation
+        4. PhotonView
+        5. Player Input/Movement objects 
+        6. Player Input/Movement variables
+        7. Attack
+        8. Score Update
+    
+    * Method declarations are also sectioned off.
+        1. Defualt Unity Methods (Awake, Update, etc.)
+        2. Movement/Camera 
+        3. Animation
+        4. Attack 
+        5. Damage
+        6. Trigger/Trigger Sync
+        7. Score Update
+
+        Note: PhotonNetwork.OfflineMode checks are down since there was offline playtesting as well.
+    */
+
+    [SerializeField] protected Stats _stats;
     protected string name;
     protected float dmgAmnt;
     protected float healthAmnt;
-    protected int id;
+    protected int id; // Essential for updating player score/record correctly. Tied to PV
     [SerializeField] protected float speed;
 
     protected AudioClip _hit; // In Scriptable Object
     protected AudioClip _stun; // In Scriptable Object
+    [SerializeField] protected AudioSource _audio; // Necessary to be on MC object
+
+    [SerializeField] protected Animator _anim;
 
     [SerializeField] protected PhotonView _pv;
 
     protected PlayerInput _playerInputActions;
     [SerializeField] protected Rigidbody _rigidBody;
     [SerializeField] protected GameObject _playerCam;
-    [SerializeField] protected BoxCollider _trigger;
+    [SerializeField] protected BoxCollider _trigger; // In the future, can just be changed to Collider
 
     protected Vector2 input_view;
     protected Vector2 input_move;
@@ -34,18 +64,17 @@ public class Character : MonoBehaviourPunCallbacks
     private const float camRotateSpeed = 100f;
     private float yaw = 0f;
 
+    protected Character attackedPlayer;
+    protected bool attackHit;
+    protected float attackCoolDown;
     protected bool stunned = false;
     protected bool canAttack = true;
-    [SerializeField] protected Animator _anim;
-    [SerializeField] protected AudioSource _audio;
 
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
     protected int playerScore = 0;
 
-    protected Character attackedPlayer;
-    protected bool attackHit;
-    protected float attackCoolDown;
+
     void Awake()
     {
         name = _stats.characterName;
@@ -59,9 +88,10 @@ public class Character : MonoBehaviourPunCallbacks
         _playerInputActions = new PlayerInput();
         _playerInputActions.Movement.Enable();
         _playerInputActions.Movement.Attack.performed += _ => Attack();
-        _playerInputActions.Movement.Attack.performed += _ => TriggerOn("Attack");
+        _playerInputActions.Movement.Attack.performed += _ => TriggerOn("Attack"); // Set to same function as Pickup because same trigger is used
         _playerInputActions.Movement.Attack.canceled += _ => TriggerOff("Attack");
-        _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized;
+
+        _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized; // Normalized so both controller and mouse rotate at same speed
         _playerInputActions.Interact.Enable();
         _playerInputActions.Interact.PickUp.performed += _ => TriggerOn("Item");
         _playerInputActions.Interact.PickUp.canceled += _ => TriggerOff("Item");
@@ -89,8 +119,10 @@ public class Character : MonoBehaviourPunCallbacks
         }
     }
 
-    //FOR OFFLINE MODE ONLY
-    //UNCOMMENT WHEN TESTING OFFLINE
+    /*FOR OFFLINE MODE ONLY
+        *UNCOMMENT WHEN TESTING OFFLINE
+    */
+
     // void Start()
     // {
     //     PhotonNetwork.OfflineMode = true;
@@ -102,10 +134,11 @@ public class Character : MonoBehaviourPunCallbacks
     {
         if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
         RotateMove();
-        AnimationState();  //Instead of having it on Update, put it inside the relevant methods
-       
-        //DEBUG FOR TRIGGER ERROR
-        if (!_trigger.enabled){
+        AnimationState();  //TODO: Instead of having it called in Update, put it inside the relevant methods.
+
+
+        if (!_trigger.enabled) // Necessary since onTriggerExit may not always work due to it being enabled/disabled by mouse click
+        { // TODO: Move this code block outside of Update.
             attackedPlayer = null;
             attackHit = false;
         }
@@ -127,6 +160,7 @@ public class Character : MonoBehaviourPunCallbacks
     }
     protected void RotateMove()
     {
+        //TODO: Apply smoothing to camera rotation. Not strictly necessary.
         yaw = input_view.normalized.x * Time.deltaTime * camRotateSpeed;
         transform.Rotate(Vector3.up * yaw);
     }
@@ -151,16 +185,41 @@ public class Character : MonoBehaviourPunCallbacks
         }
 
     }
-    protected virtual void Attack()
+    protected virtual void Attack() // Since this is a virtual method, child classes should override and add behavior UNIQUE to them
     {
         if (!_pv.IsMine) return;
         if (canAttack && _pv.IsMine)
         {
             _anim.SetTrigger("Attack");
-            StartCoroutine(AttackWait());
+            StartCoroutine(AttackWait()); 
         }
     }
 
+    protected IEnumerator AttackWait()
+    { //TODO: Figure out a way to stop button mashing from happening.
+        bool finishCheck = false;
+        float timeElapsed = 0;
+        canAttack = false;
+        while (!finishCheck)
+        { // Loop necessary to check for a hit as checking immediately during an Attack() call might not have correct values for attackHit
+
+            if (timeElapsed >= 1.5f)
+            {
+                finishCheck = true;
+            }
+            if (attackHit)
+            {
+                attackedPlayer.TakeDamage(dmgAmnt);
+                attackedPlayer = null;
+                attackHit = false;
+                break;
+            }
+            timeElapsed += 1 * Time.deltaTime;
+            yield return null;
+        }
+
+        canAttack = true;
+    }
     protected void TakeDamage(float damage)
     {
         _pv.RPC("RPC_TakeDamage", RpcTarget.All, damage);
@@ -170,22 +229,31 @@ public class Character : MonoBehaviourPunCallbacks
     public virtual void RPC_TakeDamage(float damage)
     {
         if (!_pv.IsMine) return;
-        if (!stunned)
-        { // Necessary to stop playing hit sounds while player is stunned/ stop them from lowering health further
+        if (!stunned) // Checks necessary to stop playing hit sounds while player is stunned / stop them from lowering health further
+        { 
             _pv.RPC("RPC_PlaySound", RpcTarget.All, "Hit");
             healthAmnt = healthAmnt - damage;
         }
 
         if (healthAmnt <= 0 && !stunned)
         {
-            _pv.RPC("RPC_PlaySound", RpcTarget.All, "Stun"); //_pv.RPC calls are necessary to play sound for everyone involved
+            _pv.RPC("RPC_PlaySound", RpcTarget.All, "Stun");
             stunned = true;
             attackHit = false;
             attackedPlayer = null;
-            StartCoroutine(Stunned()); // delay movement
+            StartCoroutine(Stunned());
         }
     }
-
+    protected IEnumerator Stunned()
+    {
+        yield return new WaitForSeconds(5f);
+        healthAmnt = _stats.healthAmount;
+        stunned = false;
+        if (_anim != null)
+        {
+            _anim.SetBool("Stunned", false);
+        }
+    }
     [PunRPC]
     public virtual void RPC_PlaySound(string sound)
     {
@@ -201,21 +269,56 @@ public class Character : MonoBehaviourPunCallbacks
         }
     }
 
-    protected IEnumerator Stunned()
+    public void TriggerOn(string action)
     {
-        yield return new WaitForSeconds(5f);
-        healthAmnt = _stats.healthAmount;
-        stunned = false;
-        if (_anim != null)
+        if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
+        _pv.RPC("UpdateTriggerEveryone", RpcTarget.All, true, action);
+    }
+
+    public void TriggerOff(string action)
+    {
+        if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
+        _pv.RPC("UpdateTriggerEveryone", RpcTarget.All, false, action);
+    }
+
+    [PunRPC]
+    protected void UpdateTriggerEveryone(bool active, string action)
+    {
+        if (_trigger == null) return;
+        _trigger.enabled = active;
+    }
+    private void OnTriggerEnter(Collider other)
+
+    {
+
+        if (other.gameObject.tag == "Item")
         {
-            _anim.SetBool("Stunned", false);
+            Item points = other.gameObject.GetComponent<Item>();
+            if (points == null) return;
+            int point = points.getPoints();
+            SetPlayerScore(point);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "Player")
+        {
+            attackedPlayer = other.gameObject.GetComponent<Character>();
+            attackHit = true;
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            attackedPlayer = null;
+            attackHit = false;
+        }
+    }
 
     public void SetPlayerScore(int score)
     {
-        //This Code block is required if running offline
+        //Code block required if offline
         if (PhotonNetwork.OfflineMode)
         {
             id = 0;
@@ -251,76 +354,5 @@ public class Character : MonoBehaviourPunCallbacks
         _record.UpdateRecord(playerScore, nickname);
     }
 
-    public void TriggerOn(string action)
-    {
-        if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
-        _pv.RPC("UpdateTriggerEveryone", RpcTarget.All, _pv.ViewID, true, action);
-    }
 
-    public void TriggerOff(string action)
-    {
-        if (!_pv.IsMine && !PhotonNetwork.OfflineMode) return;
-        _pv.RPC("UpdateTriggerEveryone", RpcTarget.All, _pv.ViewID, false, action);
-    }
-
-    [PunRPC]
-    protected void UpdateTriggerEveryone(int InstanceID, bool active, string action)
-    {
-            if (_trigger == null) return;
-            _trigger.enabled = active;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.gameObject.tag == "Item")
-        {
-            Item points = other.gameObject.GetComponent<Item>();
-            if (points == null) return;
-            int point = points.getPoints();
-            SetPlayerScore(point);
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.tag == "Player")
-        {
-            attackedPlayer = other.gameObject.GetComponent<Character>();
-            attackHit = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            attackedPlayer = null;
-            attackHit = false;
-        }
-    }
-
-    protected IEnumerator AttackWait()
-    {
-        bool finishCheck = false;
-        float timeElapsed = 0;
-        canAttack = false;
-        while (!finishCheck)
-        {
-
-            if (timeElapsed >= 1.5f)
-            {
-                finishCheck = true;
-            }
-            if (attackHit)
-            {
-                attackedPlayer.TakeDamage(dmgAmnt);
-                attackedPlayer = null;
-                attackHit = false;
-                break;
-            }
-            timeElapsed += 1 * Time.deltaTime;
-            yield return null;
-        }
-
-        canAttack = true;
-    }
 }

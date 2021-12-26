@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun; 
 
 [CreateAssetMenu(fileName = "Character", menuName = "CharacterCreation")]
-public class CharacterStats : ScriptableObject
+public class Stats : ScriptableObject
 {
     public string characterName;
      public int damageAmount;
