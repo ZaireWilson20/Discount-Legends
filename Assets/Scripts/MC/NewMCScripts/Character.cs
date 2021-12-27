@@ -36,6 +36,7 @@ public class Character : MonoBehaviourPunCallbacks
         Note: PhotonNetwork.OfflineMode checks are down since there was offline playtesting as well.
     */
 
+    [Header("Stats")]
     [SerializeField] protected Stats _stats;
     protected string name;
     protected float dmgAmnt;
@@ -43,15 +44,19 @@ public class Character : MonoBehaviourPunCallbacks
     protected int id; // Essential for updating player score/record correctly. Tied to PV
     protected float speed;
 
+    [Header("Audio")]
     protected AudioClip _hit; // In Scriptable Object
     protected AudioClip _stun; // In Scriptable Object
     [SerializeField] protected AudioSource _audio; // Necessary to be on MC object
 
+    [Header("Animator")]
     [SerializeField] protected Animator _anim;
 
+    [Header("Photon View")]
     [SerializeField] protected PhotonView _pv;
 
     protected PlayerInput _playerInputActions;
+    [Header("Movement")]
     [SerializeField] protected Rigidbody _rigidBody;
     [SerializeField] protected GameObject _playerCam;
     [SerializeField] protected BoxCollider _trigger; // In the future, can just be changed to Collider
