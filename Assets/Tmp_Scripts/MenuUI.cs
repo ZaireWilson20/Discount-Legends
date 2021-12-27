@@ -18,7 +18,8 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _OAuthLogin;
     [SerializeField] GameObject _tourneyJoinOrCreate;
     [SerializeField] GameObject _tourneyRoom;
-    [SerializeField] GameObject _tourneyNamer; 
+    [SerializeField] GameObject _tourneyNamer;
+    [SerializeField] GameObject _loginNeeded; 
 
     private string _currentRoomName;
     private string _currentTourneyName;
@@ -35,6 +36,19 @@ public class MenuUI : MonoBehaviour
     void Update()
     {
         
+    }
+
+
+    public void ShowLoginNecessary()
+    {
+        MustLoginCoroutine(); 
+    }
+
+    private IEnumerator MustLoginCoroutine()
+    {
+        _loginNeeded.SetActive(true); 
+        yield return new WaitForSeconds(5f);
+        _loginNeeded.SetActive(false);
     }
 
     public void SwitchToScene(GameObject g)
