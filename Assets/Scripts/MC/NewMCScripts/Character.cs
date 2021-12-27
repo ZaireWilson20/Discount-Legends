@@ -11,6 +11,7 @@ public class Character : MonoBehaviourPunCallbacks
 
     //TODO: Section this class off into interface for movement, actions, and score update. 
     //TODO: Rework this class to allow for offline playtesting as well.
+    //TODO: Add Disable/Enable to the input functions.
 
     /*
     * Variable declarations are sectioned off according to what they will be used for.
@@ -92,6 +93,7 @@ public class Character : MonoBehaviourPunCallbacks
         _playerInputActions.Movement.Attack.canceled += _ => TriggerOff("Attack");
 
         _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized; // Normalized so both controller and mouse rotate at same speed
+        _playerInputActions.Movement.View.canceled += x => input_view = x.ReadValue<Vector2>().normalized;
         _playerInputActions.Interact.Enable();
         _playerInputActions.Interact.PickUp.performed += _ => TriggerOn("Item");
         _playerInputActions.Interact.PickUp.canceled += _ => TriggerOff("Item");
