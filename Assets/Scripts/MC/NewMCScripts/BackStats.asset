@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b868b8c17d3884e82ad710fc42bc88, type: 3}
+  m_Name: BackStats
+  m_EditorClassIdentifier: 
+  characterName: Bag Character
+  damageAmount: 20
+  healthAmount: 100
+  attackCoolDown: 3
+  speed: 30
+  Hit: {fileID: 8300000, guid: a165b155a55a742498f7f3551f907e4c, type: 3}
+  Stun: {fileID: 8300000, guid: 438761cf08a55ef41a4c5fb248e73db6, type: 3}
