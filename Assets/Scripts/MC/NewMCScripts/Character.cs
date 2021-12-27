@@ -119,6 +119,8 @@ public class Character : MonoBehaviourPunCallbacks
         {
             _record = record.GetComponent<PlayerRecord>();
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     /*FOR OFFLINE MODE ONLY
