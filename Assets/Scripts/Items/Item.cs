@@ -6,10 +6,8 @@ public class Item : MonoBehaviour
 {
     private int basePrice;
     private  int discountPrice;
-    public int score;
-    //variable for discount percentage
+    public int score; //variable for discount percentage
     
-   
 
     // void Awake(){
        

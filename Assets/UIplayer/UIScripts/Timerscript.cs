@@ -29,7 +29,7 @@ public class Timerscript : MonoBehaviour
 
         if (Timer == 0)
         {
-            _RoundEnd.Invoke();
+            // _RoundEnd.Invoke();
             StartCoroutine(SendChallonge());
 
         }
@@ -55,7 +55,7 @@ public class Timerscript : MonoBehaviour
 
     IEnumerator SendChallonge()
     {
-        yield return new WaitForSeconds(25f);
+        yield return new WaitForSeconds(1f);
 
 
         Scene scene = SceneManager.GetActiveScene();

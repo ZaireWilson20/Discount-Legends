@@ -70,6 +70,11 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
     public void ConnectToPhoton()
     {
+        if (_user.user.accessToken == "")
+        {
+            //_menu.ShowLoginNecessary();
+            //return; 
+        }
         PhotonNetwork.ConnectUsingSettings();
         // _menu.OpenJoinOrCreateScreen(); 
     }

@@ -47,6 +47,9 @@ MonoBehaviour:
   - RPC_PlayHit
   - RPC_PlaySound
   - RPC_IncrementIndex
+  - RPC_Stun
+  - UpdateItemTriggerEveryone
+  - UpdateTriggerEveryone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
