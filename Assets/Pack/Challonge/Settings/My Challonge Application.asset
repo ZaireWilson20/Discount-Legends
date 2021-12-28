@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc6b1c96266ea641b50cd84db40f2da, type: 3}
+  m_Name: My Challonge Application
+  m_EditorClassIdentifier: 
+  client_id: dc8b1fb4a17cad8c2384e76166006fc5ebc3e8d1fbd799160f4e8fbdbdf35714
+  client_secret: 093fd4c5e0779ecfaf14f27e473cdb15789bdb02d8465d60f36424d18ccf8cff
+  accessToken: eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJDaGFsbG9uZ2UgQmxhc3RlciIsImp0aSI6IjViMGQ1OTFlLTk2YzctNGFmOC1iNzQ2LWI4Y2VmNjA5OGE3OCIsImlhdCI6MTYzOTgwNTExNywiZXhwIjoxNjQwNDA5OTE3LCJ1c2VyIjp7ImlkIjozMDA0MDA1LCJlbWFpbCI6ImFobWVkQGRlY295Z2FtZXMuY29tIiwiYXBwbGljYXRpb25faWQiOjM1LCJncmFudWxhcl9wZXJtaXNzaW9uIjpudWxsfX0.l8TtS6GzlJQtqxFM2yBY47NPGSxpRR_6fxOZcuMNhtAl015p2eNwqcULXS5hmMSDPf5cZHMnZzq-q_PF0WF4aw
+  tokenExpiration: 604800
+  Permissions:
+    readTournaments: 1
+    writeTournaments: 1
+    readMatches: 1
+    writeMatches: 1
+    readParticipants: 1
+    writeParticipants: 1
+    readMatchAttachements: 1
+    writeMatchAttachements: 1
