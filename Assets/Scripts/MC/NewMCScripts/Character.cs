@@ -194,6 +194,7 @@ public class Character : MonoBehaviourPunCallbacks
         }
         return false;
     }
+
     protected void AnimationState()
     {
         if (_anim == null) return;
