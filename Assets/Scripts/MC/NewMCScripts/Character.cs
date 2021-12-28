@@ -63,13 +63,15 @@ public class Character : MonoBehaviourPunCallbacks
 
     protected Vector2 input_view;
     protected Vector2 input_move;
-    private Vector3 direction;
     private Vector3 move;
+    private Vector3 direction;
+    protected Vector3 slopeDirection;
+    protected RaycastHit slopeHit;
     private Vector3 velocity = Vector3.zero;
     [SerializeField] protected float movementSmoothing = 0.1f;
     private const float camRotateSpeed = 100f;
     private float yaw = 0f;
-
+    
     protected Character attackedPlayer;
     protected bool attackHit;
     protected float attackCoolDown;
@@ -79,7 +81,6 @@ public class Character : MonoBehaviourPunCallbacks
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
     protected int playerScore = 0;
-
 
     void Awake()
     {
@@ -151,6 +152,7 @@ public class Character : MonoBehaviourPunCallbacks
             attackedPlayer = null;
             attackHit = false;
         }
+
     }
 
     void FixedUpdate()
@@ -162,8 +164,16 @@ public class Character : MonoBehaviourPunCallbacks
     protected void Move()
     {
         input_move = _playerInputActions.Movement.Move.ReadValue<Vector2>();
+        
         direction = (transform.rotation * Vector3.forward * input_move.y + transform.rotation * Vector3.right * input_move.x).normalized;
-        move = direction * speed;
+        slopeDirection = Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized; //Creates a Vector parallel to the slope
+
+        if(onSlope()){   
+            move = slopeDirection * speed * .5f; //Move slower on ramps to combat lauching off of them.
+        } else {
+            move = direction * speed;
+        }
+
         Vector3 targetVelocity = new Vector3(move.x * Time.fixedDeltaTime * speed, _rigidBody.velocity.y, move.z * speed * Time.fixedDeltaTime);
         _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref velocity, movementSmoothing);
     }
@@ -172,6 +182,17 @@ public class Character : MonoBehaviourPunCallbacks
         //TODO: Apply smoothing to camera rotation. Not strictly necessary.
         yaw = input_view.normalized.x * Time.deltaTime * camRotateSpeed;
         transform.Rotate(Vector3.up * yaw);
+    }
+
+    protected bool onSlope(){
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, .75f)){
+            if (slopeHit.normal != Vector3.up) {
+                return true;
+            } else {
+                return false;
+            }   
+        }
+        return false;
     }
     protected void AnimationState()
     {
