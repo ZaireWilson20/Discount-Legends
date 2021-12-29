@@ -71,12 +71,14 @@ public class Character : MonoBehaviourPunCallbacks
     [SerializeField] protected float movementSmoothing = 0.1f;
     private const float camRotateSpeed = 400f;
     private float yaw = 0f;
-    
+
     protected Character attackedPlayer;
     protected bool attackHit;
     protected float attackCoolDown;
     protected bool stunned = false;
     protected bool canAttack = true;
+    protected bool attack = false; // Different from canAttack. This is to stop people from collecting items while attacking
+    protected bool item = false;
 
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
@@ -84,6 +86,9 @@ public class Character : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        if(_stats == null){
+            Destroy(gameObject);
+        }
         name = _stats.characterName;
         dmgAmnt = _stats.damageAmount;
         healthAmnt = _stats.healthAmount;
@@ -93,16 +98,6 @@ public class Character : MonoBehaviourPunCallbacks
         attackCoolDown = _stats.attackCoolDown;
 
         _playerInputActions = new PlayerInput();
-        _playerInputActions.Movement.Enable();
-        _playerInputActions.Movement.Attack.performed += _ => Attack();
-        _playerInputActions.Movement.Attack.performed += _ => TriggerOn("Attack"); // Set to same function as Pickup because same trigger is used
-        _playerInputActions.Movement.Attack.canceled += _ => TriggerOff("Attack");
-
-        _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized; // Normalized so both controller and mouse rotate at same speed
-        _playerInputActions.Movement.View.canceled += x => input_view = x.ReadValue<Vector2>().normalized;
-        _playerInputActions.Interact.Enable();
-        _playerInputActions.Interact.PickUp.performed += _ => TriggerOn("Item");
-        _playerInputActions.Interact.PickUp.canceled += _ => TriggerOff("Item");
 
         _pv = GetComponent<PhotonView>();
         _rigidBody = GetComponent<Rigidbody>();
@@ -139,6 +134,29 @@ public class Character : MonoBehaviourPunCallbacks
 
     // }
 
+    private void OnEnable()
+    {
+        _playerInputActions.Movement.Enable();
+        _playerInputActions.Movement.Attack.performed += _ => Attack();
+        _playerInputActions.Movement.Attack.performed += _ => TriggerOn("Attack"); // Set to same function as Pickup because same trigger is used
+        _playerInputActions.Movement.Attack.canceled += _ => TriggerOff("Attack");
+
+        _playerInputActions.Movement.View.performed += x => input_view = x.ReadValue<Vector2>().normalized; // Normalized so both controller and mouse rotate at same speed
+        _playerInputActions.Movement.View.canceled += x => input_view = x.ReadValue<Vector2>().normalized;
+        _playerInputActions.Interact.Enable();
+        _playerInputActions.Interact.PickUp.performed += _ => TriggerOn("Item");
+        _playerInputActions.Interact.PickUp.canceled += _ => TriggerOff("Item");
+    }
+
+    private void OnDisable()
+    {
+         _playerInputActions.Movement.Disable();
+         _playerInputActions.Movement.Attack.Disable();
+         _playerInputActions.Movement.View.Disable();
+         _playerInputActions.Interact.Disable();
+         _playerInputActions.Interact.PickUp.Disable();
+        
+    }
 
     void Update()
     {
@@ -164,13 +182,16 @@ public class Character : MonoBehaviourPunCallbacks
     protected void Move()
     {
         input_move = _playerInputActions.Movement.Move.ReadValue<Vector2>();
-        
+
         direction = (transform.rotation * Vector3.forward * input_move.y + transform.rotation * Vector3.right * input_move.x).normalized;
         slopeDirection = Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized; //Creates a Vector parallel to the slope
 
-        if(onSlope()){   
+        if (onSlope())
+        {
             move = slopeDirection * speed * .5f; //Move slower on ramps to combat lauching off of them.
-        } else {
+        }
+        else
+        {
             move = direction * speed;
         }
 
@@ -184,13 +205,18 @@ public class Character : MonoBehaviourPunCallbacks
         transform.Rotate(Vector3.up * yaw);
     }
 
-    protected bool onSlope(){
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, .75f)){
-            if (slopeHit.normal != Vector3.up) {
+    protected bool onSlope()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, .75f))
+        {
+            if (slopeHit.normal != Vector3.up)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
-            }   
+            }
         }
         return false;
     }
@@ -222,7 +248,7 @@ public class Character : MonoBehaviourPunCallbacks
         if (canAttack && _pv.IsMine)
         {
             _anim.SetTrigger("Attack");
-            StartCoroutine(AttackWait()); 
+            StartCoroutine(AttackWait());
         }
     }
 
@@ -261,7 +287,7 @@ public class Character : MonoBehaviourPunCallbacks
     {
         if (!_pv.IsMine) return;
         if (!stunned) // Checks necessary to stop playing hit sounds while player is stunned / stop them from lowering health further
-        { 
+        {
             _pv.RPC("RPC_PlaySound", RpcTarget.All, "Hit");
             healthAmnt = healthAmnt - damage;
         }
@@ -316,13 +342,34 @@ public class Character : MonoBehaviourPunCallbacks
     protected void UpdateTriggerEveryone(bool active, string action)
     {
         if (_trigger == null) return;
+        if (active)
+        {
+            switch (action)
+            {
+                case "Attack":
+                    attack = true;
+                    item = false;
+                    break;
+                case "Item":
+                    attack = false;
+                    item = true;
+                    break;
+                default:
+                    attack = false;
+                    item = false;
+                    break;
+            }
+        } else {
+          attack = false;
+          item = false;
+        }
         _trigger.enabled = active;
     }
     private void OnTriggerEnter(Collider other)
 
     {
 
-        if (other.gameObject.tag == "Item")
+        if (other.gameObject.tag == "Item" && item)
         {
             Item points = other.gameObject.GetComponent<Item>();
             if (points == null) return;
@@ -331,7 +378,7 @@ public class Character : MonoBehaviourPunCallbacks
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && attack)
         {
             attackedPlayer = other.gameObject.GetComponent<Character>();
             attackHit = true;

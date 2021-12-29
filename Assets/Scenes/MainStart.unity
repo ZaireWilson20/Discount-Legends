@@ -2161,7 +2161,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e7d240687b07adc47a9bbf376088e100, type: 3}
+  m_Texture: {fileID: 2800000, guid: 96e7d3da8982e0349a7ad96c363c37c4, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -9155,12 +9155,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSprites:
-  - {fileID: 21300000, guid: 7c943cf564dbc4a419a71203efddb713, type: 3}
-  - {fileID: 21300000, guid: 7d22cc7a6579ba743919f2fcc48a3255, type: 3}
+  - {fileID: 21300000, guid: 3a28153388eda5e4198070a6482d6dc6, type: 3}
+  - {fileID: 21300000, guid: 6fab144da3cb6f543a139dfb238f4768, type: 3}
   characterImage: {fileID: 1599790079}
   weaponSprites:
-  - {fileID: 21300000, guid: f21d72ec8f92e4747a83257f63ed76b0, type: 3}
-  - {fileID: 21300000, guid: fa92e58acb23e754dac1d3b688419d62, type: 3}
+  - {fileID: 21300000, guid: c9159727de8826f46afaafbd418bdf7d, type: 3}
+  - {fileID: 21300000, guid: dd0cb4693d9172340a0cae7053e27a80, type: 3}
   weaponImage: {fileID: 134383457}
 --- !u!114 &1599790079
 MonoBehaviour:
