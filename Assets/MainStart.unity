@@ -4674,7 +4674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &813400376
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9157,10 +9157,12 @@ MonoBehaviour:
   characterSprites:
   - {fileID: 21300000, guid: 7c943cf564dbc4a419a71203efddb713, type: 3}
   - {fileID: 21300000, guid: 7d22cc7a6579ba743919f2fcc48a3255, type: 3}
+  currentIndex: 0
   characterImage: {fileID: 1599790079}
   weaponSprites:
   - {fileID: 21300000, guid: f21d72ec8f92e4747a83257f63ed76b0, type: 3}
   - {fileID: 21300000, guid: fa92e58acb23e754dac1d3b688419d62, type: 3}
+  currentWeaponIndex: 0
   weaponImage: {fileID: 134383457}
 --- !u!114 &1599790079
 MonoBehaviour:
@@ -12867,6 +12869,7 @@ MonoBehaviour:
     id: 
     host: 
     hostImageURL: 
+    timestamps: {}
     url: 
     description: 
     fullChallongeUrl: 
@@ -12885,6 +12888,7 @@ MonoBehaviour:
     sequentialPairings: 0
     maxParticipantsPerMatch: 0
     participantCount: 0
+    RecentRequestInfo: {}
     Participants: []
     Matches: []
     DoubleEliminationOptions:
@@ -12939,18 +12943,8 @@ MonoBehaviour:
   Success:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 728649509}
-        m_TargetAssemblyTypeName: Challonge.Behaviours.Matches.GetAllMatches, Assembly-CSharp
-        m_MethodName: Send
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 728649509}, m_TargetAssemblyTypeName: Challonge.Behaviours.Matches.GetAllMatches, Assembly-CSharp, m_MethodName: Send, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
 --- !u!1 &2145030038
 GameObject:
   m_ObjectHideFlags: 0
@@ -13007,10 +13001,12 @@ MonoBehaviour:
   characterSprites:
   - {fileID: 21300000, guid: 7c943cf564dbc4a419a71203efddb713, type: 3}
   - {fileID: 21300000, guid: 7d22cc7a6579ba743919f2fcc48a3255, type: 3}
+  currentIndex: 0
   characterImage: {fileID: 2145030041}
   weaponSprites:
   - {fileID: 21300000, guid: f21d72ec8f92e4747a83257f63ed76b0, type: 3}
   - {fileID: 21300000, guid: fa92e58acb23e754dac1d3b688419d62, type: 3}
+  currentWeaponIndex: 0
   weaponImage: {fileID: 203626786}
 --- !u!114 &2145030041
 MonoBehaviour:

@@ -69,7 +69,7 @@ public class Character : MonoBehaviourPunCallbacks
     protected RaycastHit slopeHit;
     private Vector3 velocity = Vector3.zero;
     [SerializeField] protected float movementSmoothing = 0.1f;
-    private const float camRotateSpeed = 100f;
+    private const float camRotateSpeed = 400f;
     private float yaw = 0f;
     
     protected Character attackedPlayer;

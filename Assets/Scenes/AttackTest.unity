@@ -547,6 +547,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FemCart
       objectReference: {fileID: 0}
+    - target: {fileID: 4565438582925692768, guid: f4a0842e3b890084bba1eaa689e54510, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5638571596034248909, guid: f4a0842e3b890084bba1eaa689e54510, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -590,6 +594,10 @@ PrefabInstance:
     - target: {fileID: 5638571596034248909, guid: f4a0842e3b890084bba1eaa689e54510, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310772014118429770, guid: f4a0842e3b890084bba1eaa689e54510, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4a0842e3b890084bba1eaa689e54510, type: 3}
