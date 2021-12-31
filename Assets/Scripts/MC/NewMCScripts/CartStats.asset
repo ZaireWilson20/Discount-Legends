@@ -19,3 +19,4 @@ MonoBehaviour:
   speed: 25
   Hit: {fileID: 8300000, guid: cb14bf2648c54a64bb64367e2bc47ca5, type: 3}
   Stun: {fileID: 8300000, guid: 438761cf08a55ef41a4c5fb248e73db6, type: 3}
+  Pickup: {fileID: 8300000, guid: c761b77dc5c5ad2448a5f31cf7820318, type: 3}
