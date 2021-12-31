@@ -82,11 +82,11 @@ public class Character : MonoBehaviourPunCallbacks
 
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
-    protected int playerScore = 0;
+    protected float playerScore = 0;
 
     void Awake()
     {
-        if(_stats == null){
+        if(_stats == null){ // Necessary because if player restarts the game, errors happen with a ghost object present from a previous playthrough
             Destroy(gameObject);
         }
         name = _stats.characterName;
@@ -373,8 +373,9 @@ public class Character : MonoBehaviourPunCallbacks
         {
             Item points = other.gameObject.GetComponent<Item>();
             if (points == null) return;
-            int point = points.getPoints();
+            float point = points.getPoints();
             SetPlayerScore(point);
+            Destroy(points.getText());
             Destroy(other.gameObject);
         }
 
@@ -394,7 +395,7 @@ public class Character : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetPlayerScore(int score)
+    public void SetPlayerScore(float score)
     {
         //Code block required if offline
         if (PhotonNetwork.OfflineMode)

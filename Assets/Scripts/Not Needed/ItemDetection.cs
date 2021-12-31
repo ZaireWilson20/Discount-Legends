@@ -12,12 +12,12 @@ public class ItemDetection : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private CartMovement player;
-    private int currentScore; // FOR DEBUGGING
+    private float currentScore; // FOR DEBUGGING
     private PhotonView PV;
 
     void Awake()
     {
-        currentScore = 0;
+        currentScore = 0f;
         // scoreText = GameObject.Find("Score").GetComponent<TextMeshProUGUI>(); // FOR DEBUGGING
         PV = gameObject.transform.parent.gameObject.GetComponent<PhotonView>();
         player = gameObject.transform.parent.gameObject.GetComponent<CartMovement>();
@@ -36,7 +36,7 @@ public class ItemDetection : MonoBehaviourPunCallbacks
             {
 
 
-                 int point = points.getPoints(); 
+                 float point = points.getPoints(); 
                 if (PV.IsMine)
                 {
                    // FOR  Debugging
