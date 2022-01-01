@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: Bag Character
   damageAmount: 20
   healthAmount: 100
-  attackCoolDown: 3
+  attackCoolDown: 2
   speed: 30
   Hit: {fileID: 8300000, guid: a165b155a55a742498f7f3551f907e4c, type: 3}
   Stun: {fileID: 8300000, guid: 438761cf08a55ef41a4c5fb248e73db6, type: 3}
