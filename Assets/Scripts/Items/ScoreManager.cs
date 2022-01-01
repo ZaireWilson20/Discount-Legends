@@ -11,9 +11,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     PhotonView PV;
     bool itemsChecked = false;
     bool needToCheckItems = false;
-    //DEBUG
-    TextMeshProUGUI itemList;
-    //Dictionary<string, int> playerScores
+    TextMeshProUGUI itemList; //Used to print a list of items for DEBUGGING
+
+    //Dictionary<string, int> playerScores;
     
     void Awake() {
     

@@ -10,31 +10,27 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform container;
     [SerializeField] GameObject scoreboardItemPrefab;
-    [SerializeField] Dictionary<int, ScoreboardItem> scoreboardItems = new Dictionary<int, ScoreboardItem>();
+    [SerializeField] Dictionary<int, ScoreboardItem> scoreboardItems = new Dictionary<int, ScoreboardItem>();  //Serialize Field is only here for debugging.
     int playerID;
     public UnityEngine.Events.UnityEvent OnScoreUpdated;
-
-
     public Challonge.API.Data.ChallongeMatch challongeMatch;
-    //Serialize Field is only here for debugging.
 
-   
+
     void Start()
     {
 
-        
+
         foreach (Player player in PhotonNetwork.PlayerList)
-       {
-         AddScoreboardItem(player);
-         Debug.Log("Player Nickname: " + player.NickName);
+        {
+            AddScoreboardItem(player);
+            Debug.Log("Player Nickname: " + player.NickName);
 
         }
 
     }
 
 
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)//when a player enters go to add scoreboar ditem and add player
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         AddScoreboardItem(newPlayer);
 
@@ -48,34 +44,37 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 
 
 
-    void AddScoreboardItem(Player player)//adds players
-   {
-       ScoreboardItem item= Instantiate (scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
-       item.Initialize(player);
-       item.updateScore(0);
-       int id = player.ActorNumber;
-        playerID = id; 
-       scoreboardItems[id] =item;
+    void AddScoreboardItem(Player player)
+    {
+        ScoreboardItem item = Instantiate(scoreboardItemPrefab, container).GetComponent<ScoreboardItem>();
+        
+        item.Initialize(player);
+        item.updateScore(0);
+
+        int id = player.ActorNumber;
+        playerID = id;
+        scoreboardItems[id] = item;
 
 
-  }
+    }
 
     public float GetPlayerScore()
     {
-        return scoreboardItems[playerID].GetComponent<ScoreboardItem>().score; 
+        return scoreboardItems[playerID].GetComponent<ScoreboardItem>().score;
     }
-   
 
-    void RemoveScoreboarditem(Player player)//removes players
+
+    void RemoveScoreboarditem(Player player)
     {
         int id = player.ActorNumber;
         Destroy(scoreboardItems[id].gameObject);
         scoreboardItems.Remove(id);
     }
 
-    public void UpdateScoreboardItem( float score , int id){
+    public void UpdateScoreboardItem(float score, int id)
+    {
         scoreboardItems[id].updateScore(score);
-        
+
     }
 
     public void SendScoresToChallonge()
