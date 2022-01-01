@@ -11,7 +11,6 @@ public class Character : MonoBehaviourPunCallbacks
 
     //TODO: Section this class off into interface for movement, actions, and score update. 
     //TODO: Rework this class to allow for offline playtesting as well.
-    //TODO: Add Disable/Enable to the input functions.
 
     /*
     * Variable declarations are sectioned off according to what they will be used for.
@@ -47,6 +46,7 @@ public class Character : MonoBehaviourPunCallbacks
     [Header("Audio")]
     protected AudioClip _hit; // In Scriptable Object
     protected AudioClip _stun; // In Scriptable Object
+    protected AudioClip _pickUp; // In Scriptable Object
     [SerializeField] protected AudioSource _audio; // Necessary to be on MC object
 
     [Header("Animator")]
@@ -82,19 +82,22 @@ public class Character : MonoBehaviourPunCallbacks
 
     private ScoreBoard _scoreBoard;
     private PlayerRecord _record;
-    protected int playerScore = 0;
+    protected float playerScore = 0;
 
     void Awake()
     {
-        if(_stats == null){
+        if (_stats == null)
+        { // Necessary because if player restarts the game, errors happen with a ghost object present from a previous playthrough
             Destroy(gameObject);
         }
+
         name = _stats.characterName;
         dmgAmnt = _stats.damageAmount;
         healthAmnt = _stats.healthAmount;
         speed = _stats.speed;
         _hit = _stats.Hit;
         _stun = _stats.Stun;
+        _pickUp = _stats.Pickup;
         attackCoolDown = _stats.attackCoolDown;
 
         _playerInputActions = new PlayerInput();
@@ -150,12 +153,13 @@ public class Character : MonoBehaviourPunCallbacks
 
     private void OnDisable()
     {
-         _playerInputActions.Movement.Disable();
-         _playerInputActions.Movement.Attack.Disable();
-         _playerInputActions.Movement.View.Disable();
-         _playerInputActions.Interact.Disable();
-         _playerInputActions.Interact.PickUp.Disable();
-        
+        _playerInputActions.Movement.Disable();
+        _playerInputActions.Movement.Attack.Disable();
+        _playerInputActions.Movement.View.Disable();
+
+        _playerInputActions.Interact.Disable();
+        _playerInputActions.Interact.PickUp.Disable();
+
     }
 
     void Update()
@@ -324,6 +328,11 @@ public class Character : MonoBehaviourPunCallbacks
             _audio.clip = _hit;
             _audio.Play();
         }
+        if (sound == "PickUp" && _pickUp != null) // May be issues when picking up something and mid Hit/Stun
+        {
+            _audio.clip = _pickUp;
+            _audio.Play();
+        }
     }
 
     public void TriggerOn(string action)
@@ -359,9 +368,11 @@ public class Character : MonoBehaviourPunCallbacks
                     item = false;
                     break;
             }
-        } else {
-          attack = false;
-          item = false;
+        }
+        else
+        {
+            attack = false;
+            item = false;
         }
         _trigger.enabled = active;
     }
@@ -371,10 +382,14 @@ public class Character : MonoBehaviourPunCallbacks
 
         if (other.gameObject.tag == "Item" && item)
         {
+             _pv.RPC("RPC_PlaySound", RpcTarget.All, "PickUp");
+
             Item points = other.gameObject.GetComponent<Item>();
             if (points == null) return;
-            int point = points.getPoints();
+            float point = points.getPoints();
+            
             SetPlayerScore(point);
+            Destroy(points.getText());
             Destroy(other.gameObject);
         }
 
@@ -394,7 +409,7 @@ public class Character : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetPlayerScore(int score)
+    public void SetPlayerScore(float score)
     {
         //Code block required if offline
         if (PhotonNetwork.OfflineMode)

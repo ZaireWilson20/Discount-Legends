@@ -8,14 +8,14 @@ public class ScoreboardItem : MonoBehaviour
 {
     public Text usernameText;
     public Text ScoreText;
-    public int score = 0; 
+    public float score = 0; 
 
     public void Initialize(Player player)
     {
        usernameText.text = player.NickName; 
     }
 
-    public void updateScore(int points) {
+    public void updateScore(float points) {
         ScoreText.text = "" + points;
         score += points; 
     }

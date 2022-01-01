@@ -13,5 +13,6 @@ public class Stats : ScriptableObject
      public float speed;
      public AudioClip Hit;
      public AudioClip Stun;
+     public AudioClip Pickup;
     
 }

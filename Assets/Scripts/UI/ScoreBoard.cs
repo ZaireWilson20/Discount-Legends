@@ -60,7 +60,7 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 
   }
 
-    public int GetPlayerScore()
+    public float GetPlayerScore()
     {
         return scoreboardItems[playerID].GetComponent<ScoreboardItem>().score; 
     }
@@ -73,14 +73,14 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
         scoreboardItems.Remove(id);
     }
 
-    public void UpdateScoreboardItem( int score , int id){
+    public void UpdateScoreboardItem( float score , int id){
         scoreboardItems[id].updateScore(score);
         
     }
 
     public void SendScoresToChallonge()
     {
-        challongeMatch.participantList[0].matchResult.score = GetPlayerScore();
+        challongeMatch.participantList[0].matchResult.score = (int)GetPlayerScore();
         OnScoreUpdated.Invoke();
     }
 

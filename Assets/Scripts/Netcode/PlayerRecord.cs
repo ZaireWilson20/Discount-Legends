@@ -12,7 +12,7 @@ public class PlayerRecord : MonoBehaviourPunCallbacks
 
     public bool EndScene;
     private TextMeshProUGUI[] playerName, scores;
-    [SerializeField] Dictionary<string, int> players = new Dictionary<string, int>();
+    [SerializeField] Dictionary<string, float> players = new Dictionary<string, float>();
     void Awake()
     {
 
@@ -54,7 +54,7 @@ public class PlayerRecord : MonoBehaviourPunCallbacks
         Debug.Log("ADDED " + player.NickName + " SCORE " + players[player.NickName] );
     }
 
-    public void UpdateRecord(int score, string name)
+    public void UpdateRecord(float score, string name)
     {
         players[name] = score;
         Debug.Log("ADDED " + name+ " SCORE " + players[name] );
@@ -84,7 +84,7 @@ public class PlayerRecord : MonoBehaviourPunCallbacks
              scores = GameObject.Find("Scores").GetComponentsInChildren<TextMeshProUGUI>();
 
              for(int i = 0 ; i < scores.Length ; i++) {
-                  KeyValuePair<string,int> record = getMax();
+                  KeyValuePair<string,float> record = getMax();
                   playerName[i].text = record.Key;
                   scores[i].text ="Points:" + record.Value + "";
                   players.Remove(record.Key);
@@ -96,14 +96,14 @@ public class PlayerRecord : MonoBehaviourPunCallbacks
 
     }
 
-    public KeyValuePair<string,int> getMax(){
+    public KeyValuePair<string,float> getMax(){
 
         if(players.Count == 0) {
-            return new KeyValuePair<string,int>("EMPTY", 0);
+            return new KeyValuePair<string,float>("EMPTY", 0);
         }
-       KeyValuePair<string,int> topScore =  new KeyValuePair<string,int>("EMPTY", 0);
+       KeyValuePair<string,float> topScore =  new KeyValuePair<string,float>("EMPTY", 0);
        int max = 0;
-        foreach(KeyValuePair<string,int> kvp in players){
+        foreach(KeyValuePair<string,float> kvp in players){
             if (kvp.Value > max){
                topScore = kvp;
             }

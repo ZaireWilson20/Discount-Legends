@@ -13,7 +13,7 @@ public class CartMovement : RigidbodyMovement
     RigidbodyMovement playerCollidedWith;
     private bool canAttack = true; 
 
-    private int PlayerScore = 0;
+    private float PlayerScore = 0;
 
     private ScoreBoard ScoreBoard;
     private PlayerRecord Record;
@@ -78,12 +78,12 @@ public class CartMovement : RigidbodyMovement
         }
     }
 
-    public void setPlayerScore(int score){
+    public void setPlayerScore(float score){
         this.PlayerScore = this.PlayerScore + score;
         updateScoreBoard(PlayerScore);
     }
 
-    public void updateScoreBoard(int PlayerScore) {
+    public void updateScoreBoard(float PlayerScore) {
         ScoreBoard = GameObject.Find("Scoreboard").GetComponent<ScoreBoard>();
         Record = GameObject.Find("PlayerRecord").GetComponent<PlayerRecord>();
         int id = _pv.Owner.ActorNumber;
