@@ -1,13 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO; 
 using UnityEngine;
-using UnityEngine.UI; 
-public class CharacterSelect : MonoBehaviour
+using UnityEngine.UI;
+using Photon.Pun; 
+public class CharacterSelect : MonoBehaviourPunCallbacks
 {
+
+    public Transform[] characterSelectSpawn;
+    [SerializeField] private int currentSpawnIndex = 0; 
     [SerializeField] Sprite[] characterSprites;
+    [SerializeField] string[] characterChoices;
+
+    int currentCharacterChoice = 0; 
     int currentIndex = 0 ;
     Dictionary<Sprite, string> spriteToPrefab;
-    [SerializeField] Image characterImage; 
+    [SerializeField] Image characterImage;
+    private GameObject activeCharacter; 
+
 
     [SerializeField] Sprite[] weaponSprites;
     int currentWeaponIndex = 0 ;
@@ -25,6 +35,10 @@ public class CharacterSelect : MonoBehaviour
 
         characterImage.sprite = characterSprites[0];
         weaponImage.sprite = weaponSprites[0];
+    }
+    private void Awake()
+    {
+        
     }
 
     // Update is called once per frame
@@ -78,5 +92,45 @@ public class CharacterSelect : MonoBehaviour
     {
         return spriteToPrefabWeapon[weaponSprites[currentWeaponIndex]];
 
+    }
+
+    public override void OnJoinedRoom()
+    {
+        currentSpawnIndex = PhotonNetwork.PlayerList.Length - 1; 
+        activeCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SelectableCharacters", "SCharacterMcgee"), characterSelectSpawn[currentSpawnIndex].position, characterSelectSpawn[currentSpawnIndex].rotation);
+
+        //base.OnJoinedRoom();
+    }
+    
+    public void CharacterSelectOnRoomJoin()
+    {
+
+    }
+
+
+    public void GoRight()
+    {
+        Debug.Log("Go Right");
+        if (currentCharacterChoice < characterChoices.Length - 1)
+        {
+            currentCharacterChoice++;
+            PhotonNetwork.Destroy(activeCharacter);
+            activeCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SelectableCharacters", characterChoices[currentCharacterChoice]), characterSelectSpawn[currentSpawnIndex].position, characterSelectSpawn[currentSpawnIndex].rotation);
+        }
+    }
+
+
+
+    public void GoLeft()
+    {
+        Debug.Log("Go Left");
+
+        if (currentCharacterChoice > 0)
+        {
+            currentCharacterChoice--;
+            PhotonNetwork.Destroy(activeCharacter);
+            activeCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SelectableCharacters", characterChoices[currentCharacterChoice]), characterSelectSpawn[currentSpawnIndex].position, characterSelectSpawn[currentSpawnIndex].rotation);
+            
+        }
     }
 }
