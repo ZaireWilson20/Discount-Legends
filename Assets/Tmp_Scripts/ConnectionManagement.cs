@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO; 
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -23,12 +24,14 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField _tourneyRoomName;
     [SerializeField] TMP_Text username;
     [SerializeField] GameObject _TOURNEYroomListContent;
-    [SerializeField] GameObject _tourneyStartButton; 
+    [SerializeField] GameObject _tourneyStartButton;
     Dictionary<string, bool> roomIsTourneyDict; 
     public static ConnectionManagement instance;
+    private CharacterSelect characterSelect; 
     public RoomManager roomManager; 
     private bool isTourneyMode;
     public ChallongeUser _user;
+    
 
     private void Awake()
     {
@@ -128,6 +131,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        Debug.Log("player joined from connection management");
         if (username.text != "")
         {
             PhotonNetwork.NickName = username.text;
@@ -152,11 +156,35 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
         }
         //  PhotonNetwork.SetPlayerCustomProperties
-        foreach (Player p in PhotonNetwork.PlayerList)
-        {
-            Instantiate(_playerListPrefab, _playerListContent).GetComponent<PlayerListObject>().SetUp(p);
+        //foreach (Player p in PhotonNetwork.PlayerList)
+        //{
+        GameObject g = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerListObj"),Vector3.zero, Quaternion.identity);
+        g.GetComponent<PlayerListObject>().SetUp(PhotonNetwork.LocalPlayer);
 
+        /*
+        foreach (GameObject t in _playerListContent)
+        {
+            if (t.gameObject.GetComponent<PhotonView>().IsMine == false)
+            {
+                t.gameObject.GetComponent<PlayerListObject>().leftButton.gameObject.SetActive(false);
+                t.gameObject.GetComponent<PlayerListObject>().rightButton.gameObject.SetActive(false);
+
+            }
+        }*/
+
+        for (int i = 0; i < _playerListContent.transform.childCount; i++)
+        {
+            Transform Children = _playerListContent.transform.GetChild(i);
+            if (Children.GetComponent<PhotonView>().IsMine == false)
+            {
+                Children.gameObject.GetComponent<PlayerListObject>().leftButton.gameObject.SetActive(false);
+                Children.gameObject.GetComponent<PlayerListObject>().rightButton.gameObject.SetActive(false);
+            }
         }
+        //Instantiate(_playerListPrefab, _playerListContent).GetComponent<PlayerListObject>().SetUp(p);
+        //}
+
+        //characterSelect.OnJoinedRoom(); 
     }
 
     public void SetTourneyModeStatus(bool isT)
@@ -206,7 +234,31 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Instantiate(_playerListPrefab, _playerListContent).GetComponent<PlayerListObject>().SetUp(newPlayer);
+
+        Debug.Log("bout to delete them arrows");
+        for (int i = 0; i < _playerListContent.transform.childCount; i++)
+        {
+            Transform Children = _playerListContent.transform.GetChild(i);
+            Debug.Log("child " + i + " is mine: " + Children.GetComponent<PhotonView>().IsMine);
+            if (Children.GetComponent<PhotonView>().IsMine == false)
+            {
+                Children.gameObject.GetComponent<PlayerListObject>().leftButton.gameObject.SetActive(false);
+                Children.gameObject.GetComponent<PlayerListObject>().rightButton.gameObject.SetActive(false);
+            }
+        }
+
+        /*
+        foreach (GameObject t in _playerListContent)
+        {
+            if (t.gameObject.GetComponent<PhotonView>().IsMine == false)
+            {
+                Debug.Log("is mineee");
+                t.gameObject.GetComponent<PlayerListObject>().leftButton.gameObject.SetActive(false);
+                t.gameObject.GetComponent<PlayerListObject>().rightButton.gameObject.SetActive(false);
+
+            }
+        }*/
+        //Instantiate(_playerListPrefab, _playerListContent).GetComponent<PlayerListObject>().SetUp(newPlayer);
     }
 
     public void LeaveRoom()
