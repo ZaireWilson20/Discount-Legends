@@ -10,21 +10,30 @@ public class Item : MonoBehaviour
     public float discountPrice; //TODO: Editor script that hides this variable depending if isDiscount or not
     private float score;
     [SerializeField] private TextMeshProUGUI priceTag;
+    TMPro.TMP_Text debugText; 
 
     [Header("Item Type")]
     public bool isDiscount; // In the future, have a base class and subclasses for different types of items.
 
     void Awake()
     {
-
+        debugText = GameObject.FindGameObjectWithTag("ItemDebug").GetComponent<TMP_Text>();
+        
         // UNCOMMENT WHEN RANDOMIZATION IS IMPLEMENTED
 
-        // discountPrice = Random.Range(1,10) * 100;
+         //discountPrice = UnityEngine.Random.Range(1,10) * 100;
         // while(basePrice < discountPrice){ // make sure you get a baseprice higher than discountprice
-        //     basePrice = Random.Range(1,10) * 300;
+        //     basePrice = UnityEngine.Random.Range(1,10) * 300;
         // }
 
+        //SetUp(); 
 
+    }
+
+    public void SetUp(float bPrice, float dPrice)
+    {
+        basePrice = bPrice;
+        discountPrice = dPrice; 
         if (isDiscount)
         {
             float percent = (float)Math.Floor(((basePrice - discountPrice) / basePrice) * 100);
@@ -34,7 +43,8 @@ public class Item : MonoBehaviour
                 Debug.LogError("No pricetag UI element", gameObject);
                 return;
             }
-            if (discountPrice == 0) {
+            if (discountPrice == 0)
+            {
                 Debug.LogError("DiscountPrice is set to 0. Please change this.", gameObject);
             }
 
@@ -60,6 +70,7 @@ public class Item : MonoBehaviour
             // Guarantees the score is less than a discounted item due to Modulo rules unless rare chance of 0
             // Multiplied by 10 to avoid getting points that are in the 1-10
         }
+        //debugText.text += "\n" + gameObject.name + ": " + score;  
     }
 
     public float getPoints()
