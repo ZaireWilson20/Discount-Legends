@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     GameObject[] items;
     PhotonView PV;
     bool itemsChecked = false;
-    bool needToCheckItems = false;
+    bool needToCheckItems = true;
     TextMeshProUGUI itemList; //Used to print a list of items for DEBUGGING
 
     //Dictionary<string, int> playerScores;
@@ -29,39 +29,37 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable changedProps)
     {
-
+        Debug.Log("Room property update, is master client: " + PhotonNetwork.IsMasterClient);
         //Eventually need to figure out a way to stop this from happening whenever player properties are changed
-        if (!itemsChecked && needToCheckItems)
+        if (needToCheckItems && !PhotonNetwork.IsMasterClient)
         {
             GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
             Debug.Log("item check");
             foreach (GameObject item in items)
             {
-                //Debug.Log(item.name); //DEBUG
-                if(changedProps[item.name] == null) { continue; }
-
-                item.GetComponent<Item>().setPoints((int)changedProps[item.name]);
+                Debug.Log(item.name); //DEBUG
+                //if(changedProps[item.name + "Base"] == null ) { continue; }
+                ItemData d = (ItemData)changedProps[item.name];
+                item.GetComponent<Item>().SetUp((float)changedProps[item.name + "Base"], (float)changedProps[item.name + "Discount"]);
             }
 
-
+            /*
             foreach (GameObject item in items)
             {
                 //Debug.Log(item.name + ": " + item.GetComponent<Item>().getPoints() + "\n"); //DEBUG
-            }
-            itemsChecked = true;
+            }*/
+            //itemsChecked = true;
             needToCheckItems = false;
         }
 
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        base.OnRoomPropertiesUpdate(changedProps);
     }
 
 
     void Start(){
 
-        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
-        ExitGames.Client.Photon.Hashtable _myCustomScores = new ExitGames.Client.Photon.Hashtable();
 
 
         //Debug.Log("on scene loaded");
@@ -70,6 +68,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+
+            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+            ExitGames.Client.Photon.Hashtable _myCustomScores = new ExitGames.Client.Photon.Hashtable();
             Debug.Log(gameObject.name);
 
             foreach (GameObject item in items)
@@ -77,17 +78,37 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
                // Debug.Log(item.name);
                 string name = item.name;
-                _myCustomScores.Add(item.name, item.GetComponent<Item>().getPoints());
+                float itemDPrice = UnityEngine.Random.Range(1, 10) * 100;
+                float itemBPrice = UnityEngine.Random.Range(3, 10) * 300;
+                ItemData itemData = new ItemData();
+                itemData.basePrice = itemBPrice;
+                itemData.discountPrice = itemDPrice;
+                item.GetComponent<Item>().SetUp(itemBPrice, itemDPrice);
+                _myCustomScores.Add(item.name + "Discount", itemDPrice);
+                _myCustomScores.Add(item.name + "Base", itemBPrice);
                 //_myCustomScores[name] = 1;//item.GetComponent<Item>().getPoints();
                 //PhotonNetwork.LocalPlayer.SetCustomProperties(_myCustomScores);
             }
             Debug.Log("needtocheck: " + needToCheckItems);
             needToCheckItems = true;
-            PhotonNetwork.SetPlayerCustomProperties(_myCustomScores);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_myCustomScores);
         }
 
 
 
     }
 
+    private void SetRandomItemValues()
+    {
+
+    }
+
+    
+    public class ItemData
+    {
+        public float discountPrice;
+        public float basePrice; 
+    }
+
 }
+
