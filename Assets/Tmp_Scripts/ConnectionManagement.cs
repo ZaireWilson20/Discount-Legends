@@ -6,10 +6,11 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using Challonge.API.Data;
+using ExitGames.Client.Photon; 
 using UnityEngine.SceneManagement; 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class ConnectionManagement : MonoBehaviourPunCallbacks
+public class ConnectionManagement : MonoBehaviourPunCallbacks, IOnEventCallback
 {
 
     [SerializeField] TMP_InputField _roomNameInput;
@@ -25,6 +26,12 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text username;
     [SerializeField] GameObject _TOURNEYroomListContent;
     [SerializeField] GameObject _tourneyStartButton;
+    [SerializeField] GameObject _readyButton;
+    [SerializeField] GameObject _notReadyButton;
+    const byte ReadyUpEventCode = 1; 
+    const byte UnReadyEventCode = 2; 
+    private int playerReadyCount = 0; 
+
     Dictionary<string, bool> roomIsTourneyDict; 
     public static ConnectionManagement instance;
     private CharacterSelect characterSelect; 
@@ -39,12 +46,51 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
         roomIsTourneyDict = new Dictionary<string, bool>(); 
     }
 
+    public override void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+        base.OnEnable(); 
+    }
+
+
+    public override void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+        base.OnDisable(); 
+
+    }
+
 
     public void StartGame()
     {
         roomManager.SetCharacter();
         PhotonNetwork.LoadLevel(1);
     }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+        if (eventCode == ReadyUpEventCode)
+        {
+            playerReadyCount++;
+            if (playerReadyCount == PhotonNetwork.PlayerList.Length - 1) { 
+                _startGameButton.SetActive(true);
+                Hashtable h = new Hashtable();
+                h["roomReady"] = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(h);
+            }
+
+        }
+        else if (eventCode == UnReadyEventCode)
+        {
+            playerReadyCount--;
+            _startGameButton.SetActive(false);
+            Hashtable h = new Hashtable();
+            h["roomReady"] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(h);
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected To Master");
@@ -141,7 +187,9 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
         {
             _menu.OpenCurrentRoomMenu();
             _playerListContent = _REGULARplayerListContent;
-            _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+            _startGameButton.SetActive(false);
+            if (!PhotonNetwork.IsMasterClient) { _readyButton.SetActive(true); }
+            else { _readyButton.SetActive(false); }
             _menu.SetRoomName(PhotonNetwork.CurrentRoom.Name);
 
 
@@ -261,6 +309,36 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
         //Instantiate(_playerListPrefab, _playerListContent).GetComponent<PlayerListObject>().SetUp(newPlayer);
     }
 
+    public void ReadyUp()
+    {
+        _readyButton.SetActive(false);
+        _notReadyButton.SetActive(true);
+        byte placeHolder = 1;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient };
+
+        PhotonNetwork.RaiseEvent(ReadyUpEventCode, placeHolder, raiseEventOptions, SendOptions.SendReliable);
+    }
+
+    public void UnReadyUp()
+    {
+        _readyButton.SetActive(true);
+        _notReadyButton.SetActive(false);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient };
+        byte placeHolder = 1; 
+        PhotonNetwork.RaiseEvent(UnReadyEventCode, placeHolder, raiseEventOptions, SendOptions.SendReliable);
+    }
+    [PunRPC]
+    public void ReadyUpRPC()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playerReadyCount++; 
+            if(playerReadyCount == PhotonNetwork.PlayerList.Length) { _startGameButton.SetActive(true); }
+        }
+
+        
+    }
+
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
@@ -279,7 +357,13 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _readyButton.SetActive(false);
+            _notReadyButton.SetActive(false);
+            _startGameButton.SetActive((bool)PhotonNetwork.CurrentRoom.CustomProperties["roomReady"]);
+        }
+        
     }
 
 
