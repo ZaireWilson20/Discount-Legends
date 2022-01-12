@@ -6,6 +6,9 @@ using TMPro;
 public class MenuUI : MonoBehaviour
 {
 
+    [SerializeField] GameObject _creditsMenu;
+    [SerializeField] GameObject _creditsButton;
+    [SerializeField] GameObject _loginButton;
     [SerializeField] GameObject _loadingScreen;
     [SerializeField] GameObject _createRoomMenu;
     [SerializeField] GameObject _joinRoomMenu;
@@ -29,15 +32,8 @@ public class MenuUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuList = new GameObject[10] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer };
+        menuList = new GameObject[13] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer, _creditsMenu, _creditsButton, _loginButton };
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void ShowLoginNecessary()
     {
@@ -67,6 +63,17 @@ public class MenuUI : MonoBehaviour
     {
         _tourneyRoom.SetActive(true);
         SetOtherMenuInactive(_tourneyRoom);
+    }
+
+    public void OpenCreditsMenu(){
+        _creditsMenu.SetActive(true);
+        SetOtherMenuInactive(_creditsMenu);
+    }
+
+    public void CloseCreditsMenu(){
+        _creditsMenu.SetActive(false);
+        _loginButton.SetActive(true);
+        _creditsButton.SetActive(true);
     }
     public void SetOtherMenuInactive(GameObject g)
     {
