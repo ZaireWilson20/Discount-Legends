@@ -75,11 +75,11 @@ public class PlayerRecord : MonoBehaviourPunCallbacks
 
         if (currentName == null)
         {
-            int sceneNum = SceneManager.GetActiveScene().buildIndex;
-            if(sceneNum == 0) {
+            string sceneName = SceneManager.GetActiveScene().name;
+            if(sceneName == "MainStart") {
                 Destroy(gameObject);
             }
-            if(sceneNum == 2){
+            if(sceneName == "EndScene"){
              playerName = GameObject.Find("Player").GetComponentsInChildren<TextMeshProUGUI>();
              scores = GameObject.Find("Scores").GetComponentsInChildren<TextMeshProUGUI>();
 
