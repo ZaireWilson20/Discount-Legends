@@ -9,6 +9,7 @@ TagManager:
   - CharacterSelector
   - PlayerList
   - ItemDebug
+  - ScoreManager
   layers:
   - Default
   - TransparentFX

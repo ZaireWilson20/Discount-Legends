@@ -56,7 +56,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public string SetCharacter()
     {
-        return characterSelect.GetCharcterPrefab() + characterSelect.GetWeaponPrefab();
+        return characterSelect.CurrentSelectToSpawn();
     }
     
 
@@ -71,7 +71,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         if(scene.buildIndex == 1) // Game Scene
         {
-            gmananger.GetComponent<GManager>().playType = "Fem" + characterSelect.GetWeaponPrefab();
+            gmananger.GetComponent<GManager>().playType = SetCharacter();
 
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManagement"), Vector3.zero, Quaternion.identity);
         }

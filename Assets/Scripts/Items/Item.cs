@@ -17,7 +17,7 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
-        debugText = GameObject.FindGameObjectWithTag("ItemDebug").GetComponent<TMP_Text>();
+        //debugText = GameObject.FindGameObjectWithTag("ItemDebug").GetComponent<TMP_Text>();
         
         // UNCOMMENT WHEN RANDOMIZATION IS IMPLEMENTED
 

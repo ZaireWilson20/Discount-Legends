@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 {
     
     GameObject[] items;
+    public Dictionary<string, Item> itemMap; 
     PhotonView PV;
     bool itemsChecked = false;
     bool needToCheckItems = true;
@@ -16,7 +17,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     //Dictionary<string, int> playerScores;
     
     void Awake() {
-    
+        itemMap = new Dictionary<string, Item>();
         //PV = GetComponent<PhotonView>();
         // itemList = GameObject.Find("ALL ITEMS").GetComponent<TextMeshProUGUI>();//DEBUG
 
@@ -39,6 +40,8 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             Debug.Log("item check");
             foreach (GameObject item in items)
             {
+                itemMap.Add(item.name, item.GetComponent<Item>());
+
                 Debug.Log(item.name); //DEBUG
                 //if(changedProps[item.name + "Base"] == null ) { continue; }
                 ItemData d = (ItemData)changedProps[item.name];
@@ -69,14 +72,15 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
 
-            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+            items = GameObject.FindGameObjectsWithTag("Item");
             ExitGames.Client.Photon.Hashtable _myCustomScores = new ExitGames.Client.Photon.Hashtable();
             Debug.Log(gameObject.name);
 
             foreach (GameObject item in items)
             {
 
-               // Debug.Log(item.name);
+                // Debug.Log(item.name);
+                itemMap.Add(item.name, item.GetComponent<Item>());
                 string name = item.name;
                 float itemDPrice = UnityEngine.Random.Range(1, 10) * 100;
                 float itemBPrice = UnityEngine.Random.Range(3, 10) * 300;
@@ -97,6 +101,8 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
 
     }
+
+    //public void GetItem(item)
 
     private void SetRandomItemValues()
     {
