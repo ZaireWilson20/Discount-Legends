@@ -20,7 +20,8 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _tourneyJoinOrCreate;
     [SerializeField] GameObject _tourneyRoom;
     [SerializeField] GameObject _tourneyNamer;
-    [SerializeField] GameObject _loginNeeded; 
+    [SerializeField] GameObject _loginNeeded;
+    [SerializeField] CharacterSelect characterSelect; 
 
     private string _currentRoomName;
     private string _currentTourneyName;
@@ -100,6 +101,10 @@ public class MenuUI : MonoBehaviour
     public void OpenLevelSelect()
     {
         _levelSelectMenu.SetActive(true);
+        foreach(GameObject g in characterSelect.allActiveCharacters)
+        {
+            g.SetActive(false); 
+        }
         SetOtherMenuInactive(_levelSelectMenu);
     }
     public void OpenCreateRoomMenu()

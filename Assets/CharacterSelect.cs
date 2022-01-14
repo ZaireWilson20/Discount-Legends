@@ -16,10 +16,11 @@ public class CharacterSelect : MonoBehaviourPunCallbacks
     int currentIndex = 0 ;
     Dictionary<Sprite, string> spriteToPrefab;
     [SerializeField] Image characterImage;
-    private GameObject activeCharacter;
+    public GameObject activeCharacter;
 
     private Dictionary<string, string> selectToPlayable; 
     [SerializeField] Sprite[] weaponSprites;
+    [SerializeField] public List<GameObject> allActiveCharacters; 
     int currentWeaponIndex = 0 ;
     Dictionary<Sprite, string> spriteToPrefabWeapon;
     [SerializeField] Image weaponImage; 
@@ -146,7 +147,7 @@ public class CharacterSelect : MonoBehaviourPunCallbacks
             currentCharacterChoice--;
             PhotonNetwork.Destroy(activeCharacter);
             activeCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "SelectableCharacters", characterChoices[currentCharacterChoice]), characterSelectSpawn[currentSpawnIndex].position, characterSelectSpawn[currentSpawnIndex].rotation);
-            
+            allActiveCharacters.Add(activeCharacter);
         }
     }
 }
