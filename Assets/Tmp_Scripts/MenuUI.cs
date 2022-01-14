@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Challonge.API.Data;
 using TMPro; 
 
 public class MenuUI : MonoBehaviour
@@ -9,6 +10,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _creditsMenu;
     [SerializeField] GameObject _creditsButton;
     [SerializeField] GameObject _loginButton;
+    [SerializeField] GameObject _startButton;
     [SerializeField] GameObject _loadingScreen;
     [SerializeField] GameObject _createRoomMenu;
     [SerializeField] GameObject _joinRoomMenu;
@@ -24,8 +26,8 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _tourneyRoom;
     [SerializeField] GameObject _tourneyNamer;
     [SerializeField] GameObject _loginNeeded;
-    [SerializeField] CharacterSelect characterSelect; 
-
+    [SerializeField] CharacterSelect characterSelect;
+    [SerializeField] ChallongeUser _user;
     private string _currentRoomName;
     private string _currentTourneyName;
     public bool inTourneyMode; 
@@ -74,7 +76,8 @@ public class MenuUI : MonoBehaviour
 
     public void CloseCreditsMenu(){
         _creditsMenu.SetActive(false);
-        _loginButton.SetActive(true);
+        _loginButton.SetActive(_user.user.accessToken == "");
+        _startButton.SetActive(_user.user.accessToken != "");
         _creditsButton.SetActive(true);
     }
     public void SetOtherMenuInactive(GameObject g)

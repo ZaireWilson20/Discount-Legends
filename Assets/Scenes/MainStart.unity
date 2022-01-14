@@ -9302,7 +9302,7 @@ RectTransform:
   - {fileID: 1628320742}
   - {fileID: 64634825}
   m_Father: {fileID: 1550538544}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12439,6 +12439,7 @@ MonoBehaviour:
   _creditsMenu: {fileID: 1552841716}
   _creditsButton: {fileID: 527812156}
   _loginButton: {fileID: 450455117}
+  _startButton: {fileID: 813400375}
   _loadingScreen: {fileID: 845656159}
   _createRoomMenu: {fileID: 794128376}
   _joinRoomMenu: {fileID: 1489879721}
@@ -12454,6 +12455,8 @@ MonoBehaviour:
   _tourneyRoom: {fileID: 8847014851041957904}
   _tourneyNamer: {fileID: 332222060}
   _loginNeeded: {fileID: 0}
+  characterSelect: {fileID: 0}
+  _user: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
   inTourneyMode: 0
 --- !u!1 &1552841716
 GameObject:
@@ -12967,9 +12970,11 @@ MonoBehaviour:
   - SCharacterBoxer
   - SCharacterBabyMech
   characterImage: {fileID: 1599790079}
+  activeCharacter: {fileID: 0}
   weaponSprites:
   - {fileID: 21300000, guid: c9159727de8826f46afaafbd418bdf7d, type: 3}
   - {fileID: 21300000, guid: dd0cb4693d9172340a0cae7053e27a80, type: 3}
+  allActiveCharacters: []
   weaponImage: {fileID: 134383457}
 --- !u!114 &1599790079
 MonoBehaviour:
@@ -18523,9 +18528,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7d22cc7a6579ba743919f2fcc48a3255, type: 3}
   characterChoices: []
   characterImage: {fileID: 2145030041}
+  activeCharacter: {fileID: 0}
   weaponSprites:
   - {fileID: 21300000, guid: f21d72ec8f92e4747a83257f63ed76b0, type: 3}
   - {fileID: 21300000, guid: fa92e58acb23e754dac1d3b688419d62, type: 3}
+  allActiveCharacters: []
   weaponImage: {fileID: 203626786}
 --- !u!114 &2145030041
 MonoBehaviour:

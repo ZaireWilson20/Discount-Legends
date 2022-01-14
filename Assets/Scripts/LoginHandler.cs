@@ -16,14 +16,14 @@ public class LoginHandler : MonoBehaviour
         if(_user.user.accessToken != "")
         {
             _loginButton.SetActive(false);
-            _creditsButton.SetActive(false);
+            _creditsButton.SetActive(true);
             _startButton.SetActive(true); 
         }
         else
         {
             _loginButton.SetActive(true);
             _startButton.SetActive(false);
-            _creditsButton.SetActive(true);
+            _creditsButton.SetActive(false);
         }
 
 
