@@ -10950,6 +10950,7 @@ MonoBehaviour:
   - SCharacterNeo
   - SCharacterBee
   - SCharacterBoxer
+  - SCharacterBabyMech
   characterImage: {fileID: 1599790079}
   weaponSprites:
   - {fileID: 21300000, guid: c9159727de8826f46afaafbd418bdf7d, type: 3}

@@ -9624,7 +9624,7 @@ GameObject:
   - component: {fileID: 1258897532}
   m_Layer: 0
   m_Name: scor\eman
-  m_TagString: Untagged
+  m_TagString: ScoreManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15903,6 +15903,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5453188828028202090, guid: 582133f92ba6d6c4fb38c8db6b15d41a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453188828028202091, guid: 582133f92ba6d6c4fb38c8db6b15d41a, type: 3}
+      propertyPath: m_Volume
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5453188828028202091, guid: 582133f92ba6d6c4fb38c8db6b15d41a, type: 3}

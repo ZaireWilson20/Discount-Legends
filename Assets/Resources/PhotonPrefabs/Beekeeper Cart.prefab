@@ -582,7 +582,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7829001430178311796}
   - {fileID: 5693623847499553047}
-  sceneViewId: 17
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7829001430178311796
@@ -636,6 +636,7 @@ MonoBehaviour:
   _rigidBody: {fileID: 7216426040905840461}
   _playerCam: {fileID: 967329977735372300}
   _trigger: {fileID: 3875393002037172627}
+  _scoreManager: {fileID: 0}
   movementSmoothing: 0.1
 --- !u!54 &7216426040905840461
 Rigidbody:

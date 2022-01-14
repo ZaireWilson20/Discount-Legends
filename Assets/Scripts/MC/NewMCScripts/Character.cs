@@ -60,6 +60,7 @@ public class Character : MonoBehaviourPunCallbacks
     [SerializeField] protected Rigidbody _rigidBody;
     [SerializeField] protected GameObject _playerCam;
     [SerializeField] protected BoxCollider _trigger; // In the future, can just be changed to Collider
+    [SerializeField] protected ScoreManager _scoreManager; 
 
     protected Vector2 input_view;
     protected Vector2 input_move;
@@ -71,6 +72,7 @@ public class Character : MonoBehaviourPunCallbacks
     [SerializeField] protected float movementSmoothing = 0.1f;
     private const float camRotateSpeed = 400f;
     private float yaw = 0f;
+    private List<GameObject> itemsPickedUp = new List<GameObject>(); 
 
     protected Character attackedPlayer;
     protected bool attackHit;
@@ -105,7 +107,7 @@ public class Character : MonoBehaviourPunCallbacks
         _pv = GetComponent<PhotonView>();
         _rigidBody = GetComponent<Rigidbody>();
         _audio = GetComponent<AudioSource>();
-
+        _scoreManager = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
         if (_pv.IsMine && _playerCam != null)
         {
             _playerCam.SetActive(true);
@@ -122,6 +124,7 @@ public class Character : MonoBehaviourPunCallbacks
         if (record != null)
         {
             _record = record.GetComponent<PlayerRecord>();
+            Debug.Log("RECORD IS HERE");
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -270,7 +273,15 @@ public class Character : MonoBehaviourPunCallbacks
             }
             if (attackHit)
             {
-                attackedPlayer.TakeDamage(dmgAmnt);
+                attackedPlayer.TakeDamage(dmgAmnt, photonView.ViewID, attackedPlayer.photonView.ViewID);
+                if (attackedPlayer.stunned && attackedPlayer.itemsPickedUp.Count > 0)
+                {
+                }
+                else
+                {
+                    Debug.Log("Is Stunned: " + attackedPlayer.stunned);
+                    Debug.Log("Player Item Count: " + attackedPlayer.itemsPickedUp.Count);
+                }
                 attackedPlayer = null;
                 attackHit = false;
                 break;
@@ -281,14 +292,15 @@ public class Character : MonoBehaviourPunCallbacks
 
         canAttack = true;
     }
-    protected void TakeDamage(float damage)
+    protected void TakeDamage(float damage, int attackingPlayerID, int attackedPlayerID)
     {
-        _pv.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        _pv.RPC("RPC_TakeDamage", RpcTarget.All, damage, attackingPlayerID, attackedPlayerID);
     }
 
     [PunRPC]
-    public virtual void RPC_TakeDamage(float damage)
+    public virtual void RPC_TakeDamage(float damage, int attackingPlayerID, int attackedPlayerID)
     {
+
         if (!_pv.IsMine) return;
         if (!stunned) // Checks necessary to stop playing hit sounds while player is stunned / stop them from lowering health further
         {
@@ -298,8 +310,14 @@ public class Character : MonoBehaviourPunCallbacks
 
         if (healthAmnt <= 0 && !stunned)
         {
+            Debug.Log("player taking damage");
+
             _pv.RPC("RPC_PlaySound", RpcTarget.All, "Stun");
             stunned = true;
+            if (itemsPickedUp.Count > 0)
+            {
+                photonView.RPC("StealItem", RpcTarget.All, attackingPlayerID, attackedPlayerID); // POTENTIAL PROBLEM: if multiple players have health below zero at the same time, same attacking player could potentially steal from them
+            }
             attackHit = false;
             attackedPlayer = null;
             StartCoroutine(Stunned());
@@ -386,11 +404,15 @@ public class Character : MonoBehaviourPunCallbacks
 
             Item points = other.gameObject.GetComponent<Item>();
             if (points == null) return;
+            //itemsPickedUp.Add(points.gameObject);
+            Debug.Log("picking up trigger");
+            //itemsPickedUp.Add(_scoreManager.itemMap[points.name].gameObject);
+            this.photonView.RPC("PickUpItemRPC", RpcTarget.Others, this.photonView.ViewID, points.name);
             float point = points.getPoints();
             
             SetPlayerScore(point);
             Destroy(points.getText());
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
 
         if (other.gameObject.tag == "Player" && attack)
@@ -400,6 +422,16 @@ public class Character : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    public void PickUpItemRPC(int playerID, string itemName)
+    {
+        //Character player = PhotonView.Find(playerID).GetComponent<Character>();
+
+            itemsPickedUp.Add(_scoreManager.itemMap[itemName].gameObject);
+            Debug.Log("Player Picked Up Item " + PhotonNetwork.IsMasterClient);
+
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -407,6 +439,24 @@ public class Character : MonoBehaviourPunCallbacks
             attackedPlayer = null;
             attackHit = false;
         }
+    }
+
+
+    [PunRPC]
+    public void StealItem(int attackingPlayerID, int otherPlayerID)
+    {
+        Character otherPlayer = PhotonView.Find(otherPlayerID).GetComponent<Character>();
+        Character attackingPlayer = PhotonView.Find(attackingPlayerID).GetComponent<Character>();
+
+        int randItem = UnityEngine.Random.Range(0, otherPlayer.itemsPickedUp.Count - 1);
+        GameObject itemTaken = otherPlayer.itemsPickedUp[randItem];
+        Debug.Log(attackingPlayer.name + " stole " + itemTaken.name + " from " + otherPlayer.name);
+        //ExitGames.Client.Photon.Hashtable playerItemHash = new ExitGames.Client.Photon.Hashtable();
+        //playerItemHash["playerItems"] = itemsPickedUp; 
+        attackingPlayer.SetPlayerScore(itemTaken.GetComponent<Item>().getPoints());
+        otherPlayer.SetPlayerScore(-1 * itemTaken.GetComponent<Item>().getPoints());
+        otherPlayer.itemsPickedUp.Remove(itemTaken);
+        attackingPlayer.itemsPickedUp.Add(itemTaken);
     }
 
     public void SetPlayerScore(float score)
@@ -444,6 +494,7 @@ public class Character : MonoBehaviourPunCallbacks
         {
             nickname = _pv.Owner.NickName;
         }
+        Debug.Log("Update Record with " + playerScore);
         _record.UpdateRecord(playerScore, nickname);
     }
 

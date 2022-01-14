@@ -51,6 +51,8 @@ MonoBehaviour:
   - UpdateItemTriggerEveryone
   - UpdateTriggerEveryone
   - ReadyUpRPC
+  - StealItem
+  - PickUpItemRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

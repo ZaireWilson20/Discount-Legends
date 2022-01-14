@@ -16,9 +16,9 @@ public class CharacterSelect : MonoBehaviourPunCallbacks
     int currentIndex = 0 ;
     Dictionary<Sprite, string> spriteToPrefab;
     [SerializeField] Image characterImage;
-    private GameObject activeCharacter; 
+    private GameObject activeCharacter;
 
-
+    private Dictionary<string, string> selectToPlayable; 
     [SerializeField] Sprite[] weaponSprites;
     int currentWeaponIndex = 0 ;
     Dictionary<Sprite, string> spriteToPrefabWeapon;
@@ -33,8 +33,24 @@ public class CharacterSelect : MonoBehaviourPunCallbacks
         spriteToPrefabWeapon.Add(weaponSprites[0], "Cart");   
         spriteToPrefabWeapon.Add(weaponSprites[1], "Back");
 
+        selectToPlayable = new Dictionary<string, string>(); 
+
+        selectToPlayable.Add("SCharacterMcgee", "ProfFox Cart");
+        selectToPlayable.Add("SCharacterFootball", "Football Cart");
+        selectToPlayable.Add("SCharacterNeo", "Neo Cart");
+        selectToPlayable.Add("SCharacterBee", "Beekeeper Cart");
+        selectToPlayable.Add("SCharacterBoxer", "Boxer Cart"); 
+        selectToPlayable.Add("SCharacterBabyMech", "BabyMech Cart");
+
+
+
         characterImage.sprite = characterSprites[0];
         weaponImage.sprite = weaponSprites[0];
+    }
+
+    public string CurrentSelectToSpawn()
+    {
+        return selectToPlayable[characterChoices[currentCharacterChoice]];
     }
     private void Awake()
     {
