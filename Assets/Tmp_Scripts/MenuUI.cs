@@ -12,6 +12,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] GameObject _titleScreenMenu;
     [SerializeField] GameObject _currentRoomMenu;
     [SerializeField] GameObject _joinOrCreateMenu;
+    [SerializeField] GameObject _levelSelectMenu; 
     [SerializeField] TMP_Text _roomNameText;
     [SerializeField] TMP_Text _tourneyNameText;
     [SerializeField] GameObject _modePickScreen; 
@@ -29,7 +30,7 @@ public class MenuUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuList = new GameObject[10] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer };
+        menuList = new GameObject[11] { _loadingScreen, _createRoomMenu, _joinRoomMenu, _titleScreenMenu, _currentRoomMenu, _joinOrCreateMenu, _modePickScreen, _tourneyJoinOrCreate, _tourneyRoom, _tourneyNamer, _levelSelectMenu };
     }
 
     // Update is called once per frame
@@ -96,6 +97,11 @@ public class MenuUI : MonoBehaviour
         SetOtherMenuInactive(_joinRoomMenu);
     }
 
+    public void OpenLevelSelect()
+    {
+        _levelSelectMenu.SetActive(true);
+        SetOtherMenuInactive(_levelSelectMenu);
+    }
     public void OpenCreateRoomMenu()
     {
         _createRoomMenu.SetActive(true);

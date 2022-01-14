@@ -69,7 +69,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             characterSelect = regularSelect; 
         }
-        if(scene.buildIndex == 1) // Game Scene
+        if(scene.name != "MainStart" && scene.name != "Challonge OAuth") // Game Scene
         {
             gmananger.GetComponent<GManager>().playType = SetCharacter();
 

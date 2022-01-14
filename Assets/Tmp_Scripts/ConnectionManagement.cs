@@ -28,6 +28,7 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks, IOnEventCallback
     [SerializeField] GameObject _tourneyStartButton;
     [SerializeField] GameObject _readyButton;
     [SerializeField] GameObject _notReadyButton;
+    [SerializeField] LevelSelect _levelSelect; 
     const byte ReadyUpEventCode = 1; 
     const byte UnReadyEventCode = 2; 
     private int playerReadyCount = 0; 
@@ -64,7 +65,8 @@ public class ConnectionManagement : MonoBehaviourPunCallbacks, IOnEventCallback
     public void StartGame()
     {
         roomManager.SetCharacter();
-        PhotonNetwork.LoadLevel(1);
+        //PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(_levelSelect.GetLevelScene());
     }
 
     public void OnEvent(EventData photonEvent)

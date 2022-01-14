@@ -21,6 +21,12 @@ EditorBuildSettings:
     path: Assets/Scenes/RealLevel.unity
     guid: edc11b14b09c4e348836da73154ce846
   - enabled: 1
+    path: Assets/Scenes/RealLevel 2.unity
+    guid: 2d56aa6ecd49a5c49a4e597175f54f48
+  - enabled: 1
+    path: Assets/Scenes/RealLevel 3.unity
+    guid: f4124a55c21a7ce4c920858f6882ddd6
+  - enabled: 1
     path: Assets/Scenes/EndScene.unity
     guid: a94f0e9a2643e7c4eb0034db4bcdd856
   - enabled: 1
