@@ -31,12 +31,12 @@ public class AnimationController : MonoBehaviour
 
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
-        playerInput.CharacterControls.Move.started += onMovementInput;
-        playerInput.CharacterControls.Move.canceled += onMovementInput;
-        playerInput.CharacterControls.Move.performed += onMovementInput;
+        //playerInput.CharacterControls.Move.started += onMovementInput;
+        //playerInput.CharacterControls.Move.canceled += onMovementInput;
+        //playerInput.CharacterControls.Move.performed += onMovementInput;
 
-        playerInput.CharacterControls.Run.started += onRun;
-        playerInput.CharacterControls.Run.canceled += onRun;
+        //playerInput.CharacterControls.Run.started += onRun;
+        //playerInput.CharacterControls.Run.canceled += onRun;
 
     }
 
@@ -108,7 +108,7 @@ public class AnimationController : MonoBehaviour
         {
             float gravity = -9.8f;
             currentMovement.y += gravity;
-            currentRunMovement += gravity;
+            //currentRunMovement += gravity;
         }
     }
     
@@ -130,6 +130,6 @@ public class AnimationController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.CharacterControls.Enable();
+        //playerInput.CharacterControls.Enable();
     }
 }
