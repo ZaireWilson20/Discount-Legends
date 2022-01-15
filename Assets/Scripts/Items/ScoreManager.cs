@@ -83,7 +83,11 @@ public class ScoreManager : MonoBehaviourPunCallbacks
                 itemMap.Add(item.name, item.GetComponent<Item>());
                 string name = item.name;
                 float itemDPrice = UnityEngine.Random.Range(1, 10) * 100;
-                float itemBPrice = UnityEngine.Random.Range(3, 10) * 300;
+                float itemBPrice = 0f;
+                while(itemBPrice < itemDPrice){ // make sure you get a baseprice higher than discountprice
+                     itemBPrice = UnityEngine.Random.Range(1, 10) * 200 + UnityEngine.Random.Range(1,9)* 10 + UnityEngine.Random.Range(1,9);
+                }
+                 
                 ItemData itemData = new ItemData();
                 itemData.basePrice = itemBPrice;
                 itemData.discountPrice = itemDPrice;

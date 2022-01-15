@@ -74,10 +74,7 @@ public class Timerscript : MonoBehaviour
     IEnumerator SendChallonge()
     {
         yield return new WaitForSeconds(1f);
-
-
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.buildIndex + 1);
+        SceneManager.LoadScene("EndScene");
 
 
     }
