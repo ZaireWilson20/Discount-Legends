@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2567944980548454225
 Transform:
   m_ObjectHideFlags: 0
@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191126740265834734}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 1.0232667, z: 0}
-  m_LocalScale: {x: 13.648699, y: 20.317835, z: 20.317835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8199304257272978448}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191126740265834734}
-  m_Mesh: {fileID: 2382015063501818745, guid: c884cea7c53a5f04983840ab536a5f12, type: 3}
+  m_Mesh: {fileID: 1810256764427469306, guid: c50f51512a579bc41b9098d7f46f6851, type: 3}
 --- !u!23 &7043878001999409255
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -945,6 +945,7 @@ Transform:
   - {fileID: 4978397201902609470}
   - {fileID: 8199304257272978448}
   - {fileID: 3071229821989866416}
+  - {fileID: 5752235706676196361}
   m_Father: {fileID: 3492348408955746174}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1068,7 +1069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 5362991dc70eebc469ad30ff7895a6e9, type: 2}
   _audio: {fileID: 5779650153320328854}
-  _anim: {fileID: 8827643968577259179}
+  _anim: {fileID: 8449342700736263441}
   _pv: {fileID: 7782559354749483811}
   _rigidBody: {fileID: 4978397202056652340}
   _playerCam: {fileID: 4978397201820252660}
@@ -1261,7 +1262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8199304257272978448
 Transform:
   m_ObjectHideFlags: 0
@@ -1288,7 +1289,7 @@ Animator:
   m_GameObject: {fileID: 8827643968577259178}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: da7be07272e39914c81479ef7ee6c5c9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 898ee4e36fffa2b4d8f2bf34258723a4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1298,3 +1299,90 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &5214801799319245794
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7348903419669518378}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+      propertyPath: m_Name
+      value: Professor_Idle_WCart
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+--- !u!1 &4944912029207031475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+  m_PrefabInstance: {fileID: 5214801799319245794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8449342700736263441
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944912029207031475}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9e004d80766eb0409cadb82b1c409f0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &5752235706676196361 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6890c5d50fec46c4693da7a06018e572, type: 3}
+  m_PrefabInstance: {fileID: 5214801799319245794}
+  m_PrefabAsset: {fileID: 0}
