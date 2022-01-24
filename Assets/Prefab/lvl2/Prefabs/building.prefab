@@ -155,7 +155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4504141077596237355, guid: 5bf6c2de7bfd00144aa2b848b66953bb, type: 3}
       propertyPath: m_VersionIndex
-      value: 1309
+      value: 1465
       objectReference: {fileID: 0}
     - target: {fileID: 4504141077596237356, guid: 5bf6c2de7bfd00144aa2b848b66953bb, type: 3}
       propertyPath: m_Name
@@ -245,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4155463562365235399, guid: 69231fa022f05b541831c687cf2668f8, type: 3}
       propertyPath: m_VersionIndex
-      value: 1851
+      value: 2010
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69231fa022f05b541831c687cf2668f8, type: 3}
@@ -308,6 +308,14 @@ PrefabInstance:
     - target: {fileID: 2019120582654378899, guid: 033264ae60ec45b40ab2c6854d79c1ab, type: 3}
       propertyPath: m_Name
       value: Accesoriesarena
+      objectReference: {fileID: 0}
+    - target: {fileID: 2023295203744561345, guid: 033264ae60ec45b40ab2c6854d79c1ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2023295203744561345, guid: 033264ae60ec45b40ab2c6854d79c1ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033264ae60ec45b40ab2c6854d79c1ab, type: 3}
@@ -373,7 +381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1646867525386146385, guid: 9747f03793f53dd43b838d3834011d5f, type: 3}
       propertyPath: m_VersionIndex
-      value: 1598
+      value: 1760
       objectReference: {fileID: 0}
     - target: {fileID: 1646867525386146388, guid: 9747f03793f53dd43b838d3834011d5f, type: 3}
       propertyPath: m_Mesh
