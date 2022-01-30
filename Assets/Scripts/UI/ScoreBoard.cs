@@ -80,6 +80,7 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
     public void SendScoresToChallonge()
     {
         challongeMatch.participantList[0].matchResult.score = (int)GetPlayerScore();
+        Debug.Log(challongeMatch.participantList[0].matchResult.score);
         OnScoreUpdated.Invoke();
     }
 

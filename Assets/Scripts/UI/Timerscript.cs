@@ -10,6 +10,8 @@ public class Timerscript : MonoBehaviour
     public TextMeshProUGUI Timertext;
     public UnityEngine.Events.UnityEvent _RoundEnd;
     AudioSource tensecondCounddown;
+    private bool scoresSent = false; 
+    public ScoreBoard sb; 
 
     private void Start()
     {
@@ -42,7 +44,11 @@ public class Timerscript : MonoBehaviour
         {
             // _RoundEnd.Invoke();
             StartCoroutine(SendChallonge());// calls the challonge so everyone sees it
-
+            if (!scoresSent)
+            {
+                sb.SendScoresToChallonge();
+                scoresSent = true; 
+            }
         }
 
 

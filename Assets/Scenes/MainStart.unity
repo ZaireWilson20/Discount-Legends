@@ -581,7 +581,7 @@ MonoBehaviour:
   scope: 1
   applicationData: {fileID: 11400000, guid: 173c7d7c01902184eb43c3c065405023, type: 2}
   challongeUser: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
-  tournamentUrl: Discount_Legends
+  tournamentUrl: DiscountLegends
   onError:
     m_PersistentCalls:
       m_Calls: []
@@ -5701,7 +5701,7 @@ MonoBehaviour:
   scope: 1
   applicationData: {fileID: 11400000, guid: 173c7d7c01902184eb43c3c065405023, type: 2}
   challongeUser: {fileID: 11400000, guid: ed4c92a1f8e174d4388cdc935ad736fb, type: 2}
-  tournamentURL: Discount_Legends
+  tournamentURL: DiscountLegends
   tournamentName: 
   tournamentType: 2
   matchState: 0
@@ -7399,7 +7399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 585, y: -87.3375}
+  m_AnchoredPosition: {x: 585, y: -87.337494}
   m_SizeDelta: {x: 1170, y: 58.225002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &922004641
@@ -9687,7 +9687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 585, y: -29.112501}
+  m_AnchoredPosition: {x: 585, y: -29.112488}
   m_SizeDelta: {x: 1170, y: 58.225002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1234487347

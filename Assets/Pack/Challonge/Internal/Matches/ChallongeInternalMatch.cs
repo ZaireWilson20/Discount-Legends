@@ -183,7 +183,7 @@ namespace Challonge.Internal.API
                 NullValueHandling = NullValueHandling.Ignore
             });
             byte[] myData = System.Text.Encoding.UTF8.GetBytes(json);
-            Debug.Log(json);
+            //Debug.Log(json);
             // Await for WebRequest to Complete
             using (var webRequest = UnityWebRequest.Put(UpdateMatchScoresRequest.uri, json))
             {

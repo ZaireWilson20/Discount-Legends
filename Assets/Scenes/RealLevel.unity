@@ -2713,6 +2713,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 917624480, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
+      propertyPath: sb
+      value: 
+      objectReference: {fileID: 979896135}
+    - target: {fileID: 917624480, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
       propertyPath: Timertext
       value: 
       objectReference: {fileID: 1636486739}
@@ -2746,7 +2750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925058696, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1100264143, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
       propertyPath: m_RootOrder
@@ -2886,7 +2890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2029464068, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 871882632527258566, guid: 34f12b6bcf6132a4ab38cd215539a668, type: 3}
       propertyPath: m_AnchorMax.y
